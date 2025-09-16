@@ -26,8 +26,8 @@ public class Add extends HttpServlet {
 		//post방식에서 인코딩하는것 -> 매 페이지 작성하기 번거로워서 필터를 통해 구현해보기
 		String subject = req.getParameter("subject");
 		String content = req.getParameter("content");
-		System.out.println(subject);
-		System.out.println(content);
+		//System.out.println(subject);
+		//System.out.println(content);
 	}
 	
 }

@@ -55,7 +55,9 @@ public class Login extends HttpServlet {
 			
 		} else {
 			//로그인 실패
-			resp.getWriter().print("<script>alert('login failed'); history.back();</script>");
+			
+			//resp.setCharacterEncoding("UTF-8");
+			resp.getWriter().print("<html><meta charset='UTF-8'><script>alert('아이디 또는 비밀번호가 틀렸습니다.'); history.back();</script></html>");
 			resp.getWriter().close();
 		}
 		
