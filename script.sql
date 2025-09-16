@@ -14,12 +14,14 @@ CREATE TABLE tblUser (
 	ing number(1) DEFAULT 1 NOT NULL 						--활동유무(1-활동, 0-탈퇴)
 );
 
-SELECT * FROM tbluser;
+
 
 --일반 계정(테스트용)
-INSERT INTO TBLUSER (id, pw, name, email, lv, pic, intro, regdate, ing)
-	values('hong', '1111', '홍길동', 'hong@gmail.com', 1, DEFAULT, '반갑습니다.', DEFAULT, DEFAULT);
+INSERT INTO TBLUSER (id, pw, name, email, lv, pic, intro, regdate, ing) VALUES ('hong', '1111', '홍길동', 'hong@gmail.com', 1, DEFAULT, '반갑습니다.', DEFAULT, DEFAULT);
 
 --관리자 계정(테스트용)
-INSERT INTO TBLUSER (id, pw, name, email, lv, pic, intro, regdate, ing)
-	values('tiger', '1111', '호랑이', 'tiger@gmail.com', 2, DEFAULT, '호랑이입니다.', DEFAULT, DEFAULT);
+INSERT INTO TBLUSER (id, pw, name, email, lv, pic, intro, regdate, ing) VALUES ('tiger', '1111', '호랑이', 'tiger@gmail.com', 2, DEFAULT, '호랑이입니다.', DEFAULT, DEFAULT);
+
+SELECT * FROM tbluser;
+
+COMMIT;

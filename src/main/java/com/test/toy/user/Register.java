@@ -50,6 +50,26 @@ public class Register extends HttpServlet {
 			
 			UserDAO dao = new UserDAO();
 			UserDTO dto = new UserDTO();
+			dto.setId(id);
+			dto.setPw(pw);
+			dto.setName(name);
+			dto.setEmail(email);
+			dto.setPic(pic);
+			dto.setIntro(intro);
+			
+			int result = dao.register(dto); //1 or 0
+			
+			if (result > 0) {
+				//회원가입 성공
+				resp.sendRedirect("/toy/index.do");
+				
+			} else {
+//				resp.setContentType("text/html");//기본값이 html이라 생략
+//				resp.setCharacterEncoding("UTF-8"); //한글 안써서 생략
+				resp.getWriter().print("<script>alert('failed'); history.back();</script>");
+				resp.getWriter().close();
+			}
+			
 			
 			
 		} catch (Exception e) {
