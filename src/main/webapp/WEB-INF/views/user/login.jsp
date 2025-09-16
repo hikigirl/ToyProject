@@ -4,19 +4,61 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" href="http://bit.ly/3WJ5ilK" />
-	<style>
-		
-	</style>
+	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
+
 </head>
 <body>
-	
-	
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="https://bit.ly/4cMuheh"></script>
-	<script>
+	<%@include file="/WEB-INF/views/inc/header.jsp"%>
+	<div id="main">
+		<h1>회원 <small>로그인</small></h1>
+		<form method="post" action="/toy/user/login.do">
 		
-	</script>
+		<table class="vertical content">
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" name="id" id="id" required class="short"/></td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="password" name="pw" id="pw" required class="short"/></td>
+			</tr>
+		</table>
+		
+		<div>
+			<button class="login primary" type="submit">로그인</button>
+			<button type="button" class="back" onclick="location.href='toy/index.do';">돌아가기</button>
+		</div>
+		
+		</form>
+		
+	</div>
+	
+	<!-- 개발용 코드(나중에 지워야함) -->
+	<hr />
+	<div style="display:flex;">
+		<form action="/toy/user/login.do" method="post">
+			<input type="hidden" name="id" value="hong"/>
+			<input type="hidden" name="pw" value="1111"/>
+			<input type="submit" name="id" value="hong(일반사용자)"/>
+		</form>
+		<form action="/toy/user/login.do" method="post">
+			<input type="hidden" name="id" value="catty"/>
+			<input type="hidden" name="pw" value="1111"/>
+			<input type="submit" name="id" value="catty(일반사용자)"/>
+		</form>
+		<form action="/toy/user/login.do" method="post">
+			<input type="hidden" name="id" value="dog"/>
+			<input type="hidden" name="pw" value="1111"/>
+			<input type="submit" name="id" value="dog(일반사용자)"/>
+		</form>
+		<form action="/toy/user/login.do" method="post">
+			<input type="hidden" name="id" value="tiger"/>
+			<input type="hidden" name="pw" value="1111"/>
+			<input type="submit" name="id" value="tiger(관리자)"/>
+		</form>
+		
+	</div>
+	
+	
 </body>
 </html>

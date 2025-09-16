@@ -4,19 +4,15 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" href="http://bit.ly/3WJ5ilK" />
-	<style>
-		
-	</style>
+	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
+
 </head>
 <body>
+	<%@include file="/WEB-INF/views/inc/header.jsp"%>
+	<div id="main">
+		<h1>콘텐츠 제목 <small>부제목</small></h1>
+		내용
+	</div>
 	
-	
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="https://bit.ly/4cMuheh"></script>
-	<script>
-		
-	</script>
 </body>
 </html>

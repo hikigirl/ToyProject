@@ -4,19 +4,34 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" href="http://bit.ly/3WJ5ilK" />
-	<style>
-		
-	</style>
+	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
+
 </head>
 <body>
-	
-	
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="https://bit.ly/4cMuheh"></script>
-	<script>
+	<%@include file="/WEB-INF/views/inc/header.jsp"%>
+	<div id="main">
+		<h1>회원 <small>정보</small></h1>
+		<table id="info">
+			<tr>
+				<td rowspan="3"><img src="/toy/asset/pic/${info.pic}" alt="${info.pic}" /></td>
+				<th>이름</th>
+				<td>${info.name}</td>
+				<th>아이디</th>
+				<td>${info.id}</td>
+			</tr>
+			<tr>
+				<th>등급</th>
+				<td>${info.lv == '1' ? '일반회원' : '관리자'}</td>
+				<th>이메일</th>
+				<td>${info.email}</td>
+			</tr>
+			<tr>
+				<td colspan="4">${info.intro}</td>
+			</tr>
 		
-	</script>
+		
+		</table>
+	</div>
+	
 </body>
 </html>

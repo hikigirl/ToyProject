@@ -25,10 +25,9 @@ public class UserDAO {
 		}
 	}
 
-	
 	public int register(UserDTO dto) {
-		//register.do에서 넘어왔음
-		//queryParamNoReturn
+		// register.do에서 넘어왔음
+		// queryParamNoReturn
 		try {
 
 			String sql = "INSERT INTO TBLUSER (id, pw, name, email, lv, pic, intro, regdate, ing) VALUES (?, ?, ?, ?, 1, ?, ?, DEFAULT, DEFAULT)";
@@ -40,15 +39,53 @@ public class UserDAO {
 			pstat.setString(4, dto.getEmail());
 			pstat.setString(5, dto.getPic());
 			pstat.setString(6, dto.getIntro());
-			
+
 			return pstat.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return 0;
 	}
 
+	public UserDTO login(UserDTO dto) {
+		// login.do에서 넘어왔음
+		// queryparamdtoreturn
+		try {
+
+			String sql = "select * from tblUser where id = ? and pw = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getId());
+			pstat.setString(2, dto.getPw());
+
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+
+				UserDTO result = new UserDTO();
+
+				result.setId(rs.getString("id"));
+				result.setName(rs.getString("name"));
+				result.setEmail(rs.getString("email"));
+				result.setLv(rs.getString("lv"));
+				result.setPic(rs.getString("pic"));
+				result.setIntro(rs.getString("intro"));
+				result.setIng(rs.getString("ing"));
+				
+				return result;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+	
+	
+	
+	
 	
 }

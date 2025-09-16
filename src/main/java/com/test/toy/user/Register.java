@@ -66,7 +66,7 @@ public class Register extends HttpServlet {
 			} else {
 //				resp.setContentType("text/html");//기본값이 html이라 생략
 //				resp.setCharacterEncoding("UTF-8"); //한글 안써서 생략
-				resp.getWriter().print("<script>alert('failed'); history.back();</script>");
+				resp.getWriter().print("<script>alert('register failed'); history.back();</script>");
 				resp.getWriter().close();
 			}
 			

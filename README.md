@@ -55,7 +55,7 @@
   - register.jsp
   - unregister.jsp
   - login.jsp
-  - logout.jsp
+  - ~~logout.jsp~~
   - info.jsp
 
 #### 공통 리소스
