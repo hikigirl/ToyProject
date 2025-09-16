@@ -6,6 +6,7 @@
   - web.xml 체크
 
 ## 프로젝트 설계 및 진행 과정
+
 1. 주제 - 미정
 2. 요구분석
    1. 회원관리(가입,로그인, 탈퇴)
@@ -53,7 +54,8 @@
 - com.test.toy.board.model
   - BoardDAO.java
   - BoardDTO.java
-
+- __com.test.toy.filter__
+  - EncodingFilter.java(인코딩 처리를 위한 필터)
 
 #### JSP
 
@@ -86,3 +88,15 @@
 - webapp/asset/images
 - webapp/asset/pic
   - 프로필 사진...
+
+---
+
+## 필터
+
+### EncodingFilter.java
+
+- javax.servlet 패키지의 Filter 인터페이스를 상속받는다.
+- __`doFilter()`__, `init()`, `destroy()` 메서드를 오버라이딩
+- 톰캣 차원에서 관리한다
+- 사용하기 전에 등록이 필요 -> 톰캣에게 알려줘야 함(web.xml)
+- 

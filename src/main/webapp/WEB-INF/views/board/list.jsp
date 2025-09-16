@@ -10,8 +10,11 @@
 <body>
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
 	<div id="main">
-		<h1>콘텐츠 제목 <small>부제목</small></h1>
-		내용
+		<h1>게시판 <small>목록</small></h1>
+		<div>
+			<!-- 글쓰기 페이지.. -->
+			<button type="button" class="add primary" onclick="location.href='/toy/board/add.do';">글쓰기</button>
+		</div>
 	</div>
 	
 </body>

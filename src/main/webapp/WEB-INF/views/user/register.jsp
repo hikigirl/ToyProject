@@ -42,8 +42,8 @@
 		</table>
 		
 		<div>
-			<button type="button" class="back" onclick="location.href='toy/index.do';">돌아가기</button>
 			<button class="in primary" type="submit">가입하기</button>
+			<button type="button" class="back" onclick="location.href='toy/index.do';">돌아가기</button>
 		</div>
 		
 		</form>

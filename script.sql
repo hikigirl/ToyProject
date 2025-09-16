@@ -1,6 +1,6 @@
 -- ToyProject -> script.sql
 
---회원 테이블
+-- 첫번째 기능. 회원 테이블
 DROP TABLE tblUser;
 CREATE TABLE tblUser (
 	id varchar2(50) PRIMARY KEY,							--아이디(pk)
@@ -25,3 +25,18 @@ INSERT INTO TBLUSER (id, pw, name, email, lv, pic, intro, regdate, ing) VALUES (
 SELECT * FROM tbluser;
 
 COMMIT;
+
+-- 2번째 기능. 게시판 테이블
+CREATE TABLE tblBoard (
+	seq NUMBER PRIMARY KEY, 							--번호(pk)
+	subject varchar2(300) NOT NULL, 					--제목
+	content varchar2(4000) NOT NULL, 					--내용
+	id varchar2(50) NOT NULL REFERENCES tblUser(id), --작성자 아이디(fk)
+	regdate DATE DEFAULT sysdate NOT NULL, 			--작성날짜
+	readcount NUMBER DEFAULT 0 NOT NULL 				--조회수
+);
+
+CREATE SEQUENCE seqBoard;
+
+INSERT INTO tblboard (seq, subject, content, id, regdate, readcount) VALUES (seqBoard.nextVal, '게시판샘플', '게시판에 작성한 내용입니다. 푸딩의 효능..');
+
