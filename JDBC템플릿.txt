@@ -18,6 +18,10 @@
 	
 
 
+
+
+
+
 queryNoParamNoReturn
 매개변수(X) 반환값(X)
 
@@ -81,48 +85,48 @@ try {
 
 
 queryParamTokenReturn
-		try {
+try {
 
-			String sql = "${sql}";
+	String sql = "${sql}";
 
-			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, ${value});
-			
-			rs = pstat.executeQuery();
+	pstat = conn.prepareStatement(sql);
+	pstat.setString(1, ${value});
+	
+	rs = pstat.executeQuery();
 
-			if (rs.next()) {
+	if (rs.next()) {
 
-				return rs.getString("${column}");
-			}	
+		return rs.getString("${column}");
+	}	
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+} catch (Exception e) {
+	e.printStackTrace();
+}
 
 
 
 
 
 queryNoParamDTOReturn
-		try {
+try {
 
-			String sql = "${sql}";
+	String sql = "${sql}";
 
-			stat = conn.createStatement();
-			rs = stat.executeQuery(sql);
+	stat = conn.createStatement();
+	rs = stat.executeQuery(sql);
 
-			if (rs.next()) {
+	if (rs.next()) {
 
-				${dto} dto = new ${dto}();
-				
-				${setter}
-				
-				return dto;				
-			}	
+		${dto} dto = new ${dto}();
+		
+		${setter}
+		
+		return dto;				
+	}	
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+} catch (Exception e) {
+	e.printStackTrace();
+}
 
 
 
@@ -130,80 +134,80 @@ queryNoParamDTOReturn
 
 
 queryParamDTOReturn
-		try {
+try {
 
-			String sql = "${sql}";
+	String sql = "${sql}";
 
-			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, ${value});
-			
-			rs = pstat.executeQuery();
+	pstat = conn.prepareStatement(sql);
+	pstat.setString(1, ${value});
+	
+	rs = pstat.executeQuery();
 
-			if (rs.next()) {
+	if (rs.next()) {
 
-				${dto} dto = new ${dto}();
-				
-				${setter}
-				
-				return dto;				
-			}	
+		${dto} dto = new ${dto}();
+		
+		${setter}
+		
+		return dto;				
+	}	
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+} catch (Exception e) {
+	e.printStackTrace();
+}
 
 
 
 queryNoParamListReturn
-		try {
+try {
 
-			String sql = "${sql}";
+	String sql = "${sql}";
 
-			stat = conn.createStatement();
-			rs = stat.executeQuery(sql);
-			
-			ArrayList<${dto}> list = new ArrayList<${dto}>();
+	stat = conn.createStatement();
+	rs = stat.executeQuery(sql);
+	
+	ArrayList<${dto}> list = new ArrayList<${dto}>();
 
-			while (rs.next()) {
+	while (rs.next()) {
 
-				${dto} dto = new ${dto}();
-				
-				${setter}
-				
-				list.add(dto);				
-			}	
-			
-			return list;
+		${dto} dto = new ${dto}();
+		
+		${setter}
+		
+		list.add(dto);				
+	}	
+	
+	return list;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+} catch (Exception e) {
+	e.printStackTrace();
+}
 
 
 
 queryParamListReturn
-		try {
+try {
 
-			String sql = "${sql}";
+	String sql = "${sql}";
 
-			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, ${value});
-			
-			rs = pstat.executeQuery();
-			
-			ArrayList<${dto}> list = new ArrayList<${dto}>();
+	pstat = conn.prepareStatement(sql);
+	pstat.setString(1, ${value});
+	
+	rs = pstat.executeQuery();
+	
+	ArrayList<${dto}> list = new ArrayList<${dto}>();
 
-			while (rs.next()) {
+	while (rs.next()) {
 
-				${dto} dto = new ${dto}();
-				
-				${setter}
-				
-				list.add(dto);				
-			}	
-			
-			return list;
+		${dto} dto = new ${dto}();
+		
+		${setter}
+		
+		list.add(dto);				
+	}	
+	
+	return list;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+} catch (Exception e) {
+	e.printStackTrace();
+}
