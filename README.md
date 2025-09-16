@@ -30,8 +30,6 @@
 - json-simple.jar
 - jstl.jar
 - cos.jar
-  
-
 
 #### 패키지, 서블릿
 - com.test.toy(메인 패키지)
@@ -61,6 +59,7 @@
   - info.jsp
 
 #### 공통 리소스
+
 - script.sql
 - views/inc(조각페이지)
   - asset.jsp

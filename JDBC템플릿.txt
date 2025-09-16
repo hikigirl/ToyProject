@@ -1,0 +1,209 @@
+/*
+	매개변수 유/무
+	반환값 유/무 > 단일값, DTO, List<DTO>
+	
+	queryNoParamNoReturn
+	queryParamNoReturn
+	
+	queryNoParamTokenReturn
+	queryParamTokenReturn
+	
+	queryNoParamDTOReturn
+	queryParamDTOReturn
+	
+	queryNoParamListReturn
+	queryParamListReturn
+
+*/
+	
+
+
+queryNoParamNoReturn
+매개변수(X) 반환값(X)
+
+try {
+
+	String sql = "${sql}";
+
+	stat = conn.createStatement();
+
+	return stat.executeUpdate(sql);
+
+} catch (Exception e) {
+	System.out.println("${primary_type_name}.${enclosing_method}");
+	e.printStackTrace();
+}
+
+
+
+
+
+queryParamNoReturn
+매개변수(O), 반환값(X)
+
+try {
+
+	String sql = "${sql}";
+
+	pstat = conn.prepareStatement(sql);
+	pstat.setString(1, ${value});
+
+	return pstat.executeUpdate();	
+
+} catch (Exception e) {
+	e.printStackTrace();
+}	
+
+
+
+
+queryNoParamTokenReturn
+매개변수(X), 반환값(Token)
+
+try {
+
+	String sql = "${sql}";
+
+	stat = conn.createStatement();
+	rs = stat.executeQuery(sql);
+
+	if (rs.next()) {
+
+		return rs.getString("${column}");
+	}	
+
+} catch (Exception e) {
+	e.printStackTrace();
+}
+
+
+
+
+
+queryParamTokenReturn
+		try {
+
+			String sql = "${sql}";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, ${value});
+			
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+
+				return rs.getString("${column}");
+			}	
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
+
+
+queryNoParamDTOReturn
+		try {
+
+			String sql = "${sql}";
+
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+
+			if (rs.next()) {
+
+				${dto} dto = new ${dto}();
+				
+				${setter}
+				
+				return dto;				
+			}	
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+queryParamDTOReturn
+		try {
+
+			String sql = "${sql}";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, ${value});
+			
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+
+				${dto} dto = new ${dto}();
+				
+				${setter}
+				
+				return dto;				
+			}	
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
+queryNoParamListReturn
+		try {
+
+			String sql = "${sql}";
+
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<${dto}> list = new ArrayList<${dto}>();
+
+			while (rs.next()) {
+
+				${dto} dto = new ${dto}();
+				
+				${setter}
+				
+				list.add(dto);				
+			}	
+			
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
+queryParamListReturn
+		try {
+
+			String sql = "${sql}";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, ${value});
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<${dto}> list = new ArrayList<${dto}>();
+
+			while (rs.next()) {
+
+				${dto} dto = new ${dto}();
+				
+				${setter}
+				
+				list.add(dto);				
+			}	
+			
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
