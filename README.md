@@ -35,7 +35,7 @@
 - com.test.toy(메인 패키지)
   - Index.java
   - Template.java
-- com.test.toy.user(회원 패키지)
+- __com.test.toy.user(회원 패키지)__
   - Register.java: 회원가입폼+처리
   - Unregister.java: 회원탈퇴
   - Login.java: 로그인
@@ -44,6 +44,15 @@
 - com.test.toy.user.model
   - UserDAO.java
   - UserDTO.java
+- __com.test.toy.board(게시판 패키지)__
+  - List.java
+  - View.java
+  - Add.java
+  - Edit.java
+  - Del.java
+- com.test.toy.board.model
+  - BoardDAO.java
+  - BoardDTO.java
 
 
 #### JSP
@@ -57,6 +66,12 @@
   - login.jsp
   - ~~logout.jsp~~
   - info.jsp
+- views/board
+  - list.jsp
+  - view.jsp
+  - add.jsp
+  - edit.jsp
+  - del.jsp
 
 #### 공통 리소스
 

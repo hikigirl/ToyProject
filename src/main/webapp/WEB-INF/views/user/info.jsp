@@ -28,8 +28,6 @@
 			<tr>
 				<td colspan="4">${info.intro}</td>
 			</tr>
-		
-		
 		</table>
 	</div>
 	
