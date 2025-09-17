@@ -40,8 +40,14 @@
 		</table>
 		<!-- 수정, 삭제, 돌아가기 버튼 -->
 		<div>
+		
+			<%-- 현재로그인: ${id}
+			작성자 : ${dto.id} --%>
+			<c:if test="${not empty id and (id==dto.id || lv == '2')}">
 			<button type="button" class="edit primary" onclick="location.href='/toy/board/edit.do?seq=${dto.seq}';">수정하기</button>
 			<button type="button" class="del primary" onclick="location.href='/toy/board/del.do?seq=${dto.seq}';">삭제하기</button>
+			</c:if>
+			
 			<button type="button" class="back" onclick="location.href='/toy/board/list.do';">목록보기</button>
 		</div>
 
