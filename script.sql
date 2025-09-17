@@ -65,3 +65,8 @@ COMMIT;
 SELECT * FROM vwboard;
 
 SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name FROM tblBoard WHERE seq = ?;
+
+UPDATE TBLBOARD SET readcount = readcount+1 WHERE seq=?;
+
+UPDATE TBLBOARD SET subject = ?, content = ? WHERE seq = ?;
+DELETE FROM TBLBOARD WHERE seq = ?;

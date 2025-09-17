@@ -10,8 +10,17 @@
 <body>
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
 	<div id="main">
-		<h1>콘텐츠 제목 <small>부제목</small></h1>
-		내용
+		<h1>게시판 <small>삭제하기</small></h1>
+		<form action="/toy/board/del.do" method="POST">
+		
+		
+		<!-- 삭제버튼과 돌아가기 버튼 -->
+		<div>
+			<button class="del primary" type="submit">삭제하기</button>
+			<button type="button" class="back" onclick="location.href='/toy/board/view.do?seq=${seq}';">목록보기</button>
+		</div>
+		<input type="hidden" name="seq" value="${seq}" />
+		</form>
 	</div>
 	
 </body>
