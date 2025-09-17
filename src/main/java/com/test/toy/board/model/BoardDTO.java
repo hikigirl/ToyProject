@@ -14,4 +14,7 @@ public class BoardDTO {
 	private String id;
 	private String regdate;
 	private String readcount;
+	
+	private String name;
+	private double isnew; //최신글인지 구별하는 용도
 }

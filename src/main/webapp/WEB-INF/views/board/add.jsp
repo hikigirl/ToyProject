@@ -25,7 +25,7 @@
 		<!-- 쓰기버튼과 돌아가기 버튼 -->
 		<div>
 			<button class="add primary" type="submit">글쓰기</button>
-			<button type="button" class="back" onclick="location.href='toy/board/list.do';">목록보기</button>
+			<button type="button" class="back" onclick="location.href='/toy/board/list.do';">목록보기</button>
 		</div>
 		</form>
 	</div>

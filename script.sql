@@ -38,5 +38,30 @@ CREATE TABLE tblBoard (
 
 CREATE SEQUENCE seqBoard;
 
-INSERT INTO tblboard (seq, subject, content, id, regdate, readcount) VALUES (seqBoard.nextVal, '게시판샘플', '게시판에 작성한 내용입니다. 푸딩의 효능..');
+INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT);
 
+SELECT * FROM TBLBOARD;
+
+SELECT seq, subject, id, readcount, regdate FROM TBLBOARD ORDER BY seq DESC;
+
+CREATE OR REPLACE VIEW vwBoard AS 
+SELECT 
+	seq, subject, id, readcount, regdate, 
+	(SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,
+	(sysdate - regdate) AS isnew
+FROM TBLBOARD
+ORDER BY seq DESC;
+
+
+
+
+UPDATE tblBoard SET regdate = regdate - 5 WHERE seq = 1;
+UPDATE tblBoard SET regdate = regdate - 3.5 WHERE seq = 2;
+UPDATE tblBoard SET regdate = regdate - 2.3 WHERE seq = 3;
+UPDATE tblBoard SET regdate = regdate - 1.4 WHERE seq = 4;
+
+COMMIT;
+
+SELECT * FROM vwboard;
+
+SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name FROM tblBoard WHERE seq = ?;

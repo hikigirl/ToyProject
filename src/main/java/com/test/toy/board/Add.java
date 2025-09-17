@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.test.toy.board.model.BoardDAO;
+import com.test.toy.board.model.BoardDTO;
 
 @WebServlet(value = "/board/add.do")
 public class Add extends HttpServlet {
@@ -28,6 +32,23 @@ public class Add extends HttpServlet {
 		String content = req.getParameter("content");
 		//System.out.println(subject);
 		//System.out.println(content);
+		
+		BoardDAO dao = new BoardDAO();
+		BoardDTO dto = new BoardDTO();
+		dto.setSubject(subject);
+		dto.setContent(content);
+		
+		HttpSession session = req.getSession();
+		dto.setId(session.getAttribute("id").toString()); 
+		
+		//crud 작업의 마무리 코드 -> 코드조각 등록 추천...
+		if (dao.add(dto) > 0) {
+			resp.sendRedirect("/toy/board/list.do");
+		} else {
+			resp.getWriter().print("<html><meta charset='UTF-8'><script>alert('글쓰기에 실패하였습니다.'); history.back();</script></html>");
+			resp.getWriter().close();
+		}
+		
 	}
 	
 }
