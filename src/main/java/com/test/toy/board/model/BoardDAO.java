@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.test.util.DBUtil;
 
@@ -53,11 +54,21 @@ public class BoardDAO {
 		return 0;
 	}
 
-	public List<BoardDTO> list() {
+	public List<BoardDTO> list(Map<String, String> map) {
 		//list.do에서 호출하였음
 		try {
+			//목록보기 -> SELECT * FROM vwBoard
+			//검색하기 -> SELECT * FROM vwBoard WHERE 조건
 			
-			String sql = "SELECT * FROM vwBoard";
+			String where = "";
+			if(map.get("search").equals("y")) {
+				//where = "조건";
+				//where 컬럼명 like '%검색어%';
+				where = String.format("WHERE %s like '%%%s%%'", map.get("column"), map.get("word"));
+			}
+			
+			String sql = "SELECT * FROM vwBoard " + where;
+			
 			
 			stat = conn.createStatement();
 			rs = stat.executeQuery(sql);

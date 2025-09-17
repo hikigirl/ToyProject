@@ -12,7 +12,18 @@
 <body>
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
 	<div id="main">
-		<h1>게시판 <small>목록</small></h1>
+		<h1>게시판 
+			<c:if test="${map.search=='n'}">
+			<small>목록</small>
+			</c:if>
+			
+			<c:if test="${map.search=='y'}">
+			<small>검색 결과</small>
+			</c:if>
+		</h1>
+		<c:if test="${map.search=='y'}">
+		<div id="labelsearch">'${map.word}'(으)로 검색한 결과가 ${list.size()}건 있습니다.</div>
+		</c:if>
 		
 		<table id="list">
 			<tr>
@@ -26,7 +37,7 @@
 			<tr>
 				<td>${dto.seq}</td>
 				<td>
-					<a href="/toy/board/view.do?seq=${dto.seq}">${dto.subject}</a>
+					<a href="/toy/board/view.do?seq=${dto.seq}&column=${map.column}&word=${map.word}">${dto.subject}</a>
 					
 					<c:if test="${dto.isnew < 1}">
 						<span class="isnew">new</span>
@@ -61,6 +72,14 @@
 			</c:if>
 		</div>
 	</div>
+	
+	<script>
+		<c:if test="${map.search=='y'}">
+		
+		$('select[name=column]').val('${map.column}');
+		$('input[name=word]').val('${map.word}');
+		</c:if>
+	</script>
 	
 </body>
 </html>

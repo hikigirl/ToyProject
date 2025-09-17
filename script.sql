@@ -46,7 +46,7 @@ SELECT seq, subject, id, readcount, regdate FROM TBLBOARD ORDER BY seq DESC;
 
 CREATE OR REPLACE VIEW vwBoard AS 
 SELECT 
-	seq, subject, id, readcount, regdate, 
+	seq, subject, id, readcount, regdate, content,
 	(SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,
 	(sysdate - regdate) AS isnew
 FROM TBLBOARD
@@ -74,8 +74,20 @@ DELETE FROM TBLBOARD WHERE seq = ?;
 -- 회원 탈퇴
 -- update문
 UPDATE TBLUSER SET (pw = '0000', name = '익명', email = '0000', lv = 1, pic = 'pic.png', intro = '0000', ing = 0) WHERE id = ?;
+UPDATE TBLUSER SET 
+	(pw = '0000', 
+	name = '익명', 
+	email = '0000', 
+	lv = 1, 
+	pic = 'pic.png', 
+	intro = '0000', 
+	ing = 0) 
+WHERE id = ?;
 
 
+--검색 기능
+SELECT * FROM vwboard WHERE 컬럼명 like '%검색어%';
 
-
+SELECT * FROM vwboard WHERE content LIKE '%셋%';
+SELECT * FROM vwboard;
 

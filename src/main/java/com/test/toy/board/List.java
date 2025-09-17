@@ -2,6 +2,8 @@ package com.test.toy.board;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +21,29 @@ public class List extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//List.java
+		/*
+		목록보기 -> list.do
+		검색결과보기 -> query string을 포함
+		*/
+		String column = req.getParameter("column");
+		String word = req.getParameter("word");
+		String search = "n"; //목록보기(n), 검색하기(y)
+		
+		if ((column == null && word==null) || word.trim().equals("")) {
+			search = "n";
+		} else {
+			search = "y";
+		}
+		
+		//검색에 필요한 정보 저장용 hashmap
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("column", column);
+		map.put("word", word);
+		map.put("search", search);
+		
+		
+		
 		
 		HttpSession session = req.getSession();
 		//조회수 증가 방지
@@ -26,7 +51,7 @@ public class List extends HttpServlet {
 		
 		BoardDAO dao = new BoardDAO();
 		
-		java.util.List<BoardDTO> list = dao.list();
+		java.util.List<BoardDTO> list = dao.list(map);
 		
 		//데이터를 받아오고 아직 jsp에게 넘기기 전
 		//데이터 조작
@@ -60,6 +85,8 @@ public class List extends HttpServlet {
 		
 		//JSP에게 넘긴다
 		req.setAttribute("list", list);
+		//아직 검색에 관련된 값들을 jsp에 넘겨주지 않았음(map에 넣은 값)
+		req.setAttribute("map", map); //검색어와 검색중인 컬럼이 담겨 있음
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
 		dispatcher.forward(req, resp);

@@ -21,6 +21,8 @@ public class View extends HttpServlet {
 		HttpSession session = req.getSession();
 		
 		String seq = req.getParameter("seq");
+		String column= req.getParameter("column");
+		String word= req.getParameter("word");
 		
 		BoardDAO dao = new BoardDAO();
 		
@@ -43,9 +45,19 @@ public class View extends HttpServlet {
 		content = content.replace("<", "&lt;").replace(">", "&gt;");
 		dto.setContent(content);
 		
+		//검색어 부각시키기
+		// - 오늘 <span style='background-color:gold; color:tomato;'>자바</span> 수업 중...
+		if (((column != null && word != null) || (!column.equals("") && !word.equals(""))) && column.equals("content") ) {
+			content = content.replace(word, "<span style='background-color:gold; color:tomato;'>"+ word +"</span>");
+			dto.setContent(content);
+		}
+		
+		
 		
 		//JSP에게 전달
 		req.setAttribute("dto", dto);
+		req.setAttribute("column", column);
+		req.setAttribute("word", word);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/view.jsp");
 		dispatcher.forward(req, resp);

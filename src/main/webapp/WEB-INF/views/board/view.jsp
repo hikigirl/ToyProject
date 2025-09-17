@@ -48,7 +48,8 @@
 			<button type="button" class="del primary" onclick="location.href='/toy/board/del.do?seq=${dto.seq}';">삭제하기</button>
 			</c:if>
 			
-			<button type="button" class="back" onclick="location.href='/toy/board/list.do';">목록보기</button>
+			<button type="button" class="back" onclick="location.href='/toy/board/list.do?column=${column}&word=${word}';">목록보기</button>
+			<!-- <button type="button" class="back" onclick="history.back();">목록보기</button> -->
 		</div>
 
 	</div>
