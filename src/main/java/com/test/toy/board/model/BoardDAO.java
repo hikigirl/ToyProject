@@ -91,6 +91,7 @@ public class BoardDAO {
 
 	public BoardDTO get(String seq) {
 		//view.do에서 호출되었음
+		//edit.do에서 호출되었음
 		try {
 			
 			String sql = "SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name FROM tblBoard WHERE seq = ?";
@@ -137,6 +138,28 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public int edit(BoardDTO dto) {
+		// edit.do에서 호출되었음
+		
+		try {
+
+			String sql = "UPDATE TBLBOARD SET subject = ?, content = ? WHERE seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getSubject());
+			pstat.setString(2, dto.getContent());
+			pstat.setString(3, dto.getSeq()); //edit.do에 seq를 안담아보냈다.. 처리하고 다시 왓음(처리한 과정에 대해 다시 생각해보기)
+			
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 	

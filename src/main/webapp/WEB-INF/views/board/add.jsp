@@ -15,7 +15,7 @@
 		<table class="vertical">
 			<tr>
 				<th>제목</th>
-				<td><input type="text"" id="subject" class="full" name="subject" required="required" /></td>
+				<td><input type="text" id="subject" class="full" name="subject" required="required" /></td>
 			</tr>
 			<tr>
 				<th>내용</th>
