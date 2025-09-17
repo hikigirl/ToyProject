@@ -43,6 +43,17 @@
 			</c:forEach>
 		</table>
 		
+		<!-- 검색창 -->
+		<form action="/toy/board/list.do" id="searchForm" method="get">
+			<select name="column">
+				<option value="subject">제목</option>
+				<option value="content">내용</option>
+				<option value="name">이름</option>
+			</select>
+			<input type="text" class="long" required name="word" />
+			<input type="submit" value="검색하기" />
+		</form>
+		
 		<div>
 			<c:if test="${not empty id}">
 			<!-- 글쓰기 페이지.. -->

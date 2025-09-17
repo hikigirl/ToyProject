@@ -70,3 +70,12 @@ UPDATE TBLBOARD SET readcount = readcount+1 WHERE seq=?;
 
 UPDATE TBLBOARD SET subject = ?, content = ? WHERE seq = ?;
 DELETE FROM TBLBOARD WHERE seq = ?;
+
+-- 회원 탈퇴
+-- update문
+UPDATE TBLUSER SET (pw = '0000', name = '익명', email = '0000', lv = 1, pic = 'pic.png', intro = '0000', ing = 0) WHERE id = ?;
+
+
+
+
+
