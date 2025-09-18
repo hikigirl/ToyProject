@@ -245,6 +245,73 @@ public class BoardDAO {
 		return 0;
 	}
 
+	public List<CommentDTO> listComment(String bseq) {
+		
+		//view.java에서 호출하였음
+		try {
+			
+			String sql = "SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE bseq = ? ORDER BY seq DESC";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, bseq);
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<CommentDTO> list = new ArrayList<CommentDTO>();
+			
+			while (rs.next()) {
+				
+				CommentDTO dto = new CommentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setContent(rs.getString("content"));
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setBseq(rs.getString("bseq"));
+				
+				list.add(dto);				
+			}	
+			
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public CommentDTO getComment() {
+		// addcomment.do에서 호출, 방금 쓴 댓글을 select
+		try {
+			
+			String sql = "SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE seq = (SELECT max(seq) FROM tblcomment)";
+			
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			
+			if (rs.next()) {
+				
+				CommentDTO dto = new CommentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setContent(rs.getString("content"));
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setBseq(rs.getString("bseq"));
+				
+				return dto;				
+			}	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 	
 	
 	

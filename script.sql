@@ -117,9 +117,13 @@ CREATE TABLE tblComment(
 
 CREATE SEQUENCE seqComment;
 
-SELECT * FROM tblcomment;
+SELECT * FROM tblcomment ORDER BY seq DESC;
 
 INSERT INTO tblComment (seq, content, id, regdate, bseq) VALUES (seqComment.nextVal, ? ?, DEFAULT, ?);
+
+SELECT tblcomment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblcomment WHERE bseq = ? ORDER BY seq DESC;
+
+SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE seq = (SELECT max(seq) FROM tblcomment);
 
 
 --초기화

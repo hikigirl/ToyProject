@@ -32,13 +32,37 @@ public class AddComment extends HttpServlet {
 		dto.setBseq(bseq);
 		dto.setId(id);
 		
-		int result = dao.addComment(dto);
+		int result = dao.addComment(dto); //댓글 쓰기
+		CommentDTO dto2 = dao.getComment(); //방금 쓴 댓글 가져오기
+		
 		
 		//result값에 따른 처리..
 		resp.setContentType("application/json");
 		
+		/* 이미 있던 obj 안에 새로운 객체를 하나 추가
+		   	{
+		   		"result": 1,
+		   		"dto" : {
+		   			"seq" : , 
+		   			"name": , 
+		   			등등등..
+		   		}
+		   	}
+		*/
+		
 		JSONObject obj = new JSONObject();
 		obj.put("result", result);
+		
+		JSONObject subObj = new JSONObject();
+		subObj.put("seq", dto2.getSeq());
+		subObj.put("name", dto2.getName());
+		subObj.put("id", dto2.getId());
+		subObj.put("content", dto2.getContent());
+		subObj.put("regdate", dto2.getRegdate());
+		
+		obj.put("dto", subObj);
+		
+		System.out.println(obj.toString());
 		
 		resp.getWriter().print(obj.toString());
 		resp.getWriter().close();

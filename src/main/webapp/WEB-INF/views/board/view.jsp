@@ -45,14 +45,15 @@
 
 		<!-- 댓글 목록 -->
 		<table id="comment">
+		<c:forEach items="${clist}" var="cdto">
 			<tr>
 				<td class="commentContent">
-					<div>댓글내용</div>
-					<div>작성시간</div>
+					<div>${cdto.content}</div>
+					<div>${cdto.regdate}</div>
 				</td>
 				<td class="commentInfo">
 					<div>
-						<div>홍길동</div>
+						<div>${cdto.name}(${cdto.id})</div>
 						<div>
 							<span class="material-symbols-outlined">edit_note</span> <span
 								class="material-symbols-outlined">delete</span>
@@ -60,9 +61,10 @@
 					</div>
 				</td>
 			</tr>
+		</c:forEach>
 		</table>
 		<!-- 댓글 쓰기 -->
-		<form action="" id="addCommentForm">
+		<form id="addCommentForm">
 
 			<table id="addComment">
 				<tr>
@@ -115,7 +117,37 @@
 			content: $('input[name=content]').val(),
 			bseq: ${dto.seq}
 		}, function(result) {
-			alert(result.result);
+			//alert(result.result);
+			
+			
+			
+			//댓글 목록에 내가 방금 쓴 댓글도 반영되도록 하기
+			//목록 갱신
+			
+			//새로 작성한 댓글만 화면에 동적으로 추가
+			//result 내부에 dto객체가 새로 생겼음
+			let temp = `
+			<tr>
+				<td class="commentContent">
+					<div>\${result.dto.content}</div>
+					<div>\${result.dto.regdate}</div>
+				</td>
+				<td class="commentInfo">
+					<div>
+						<div>\${result.dto.name}(\${result.dto.id})</div>
+						<div>
+							<span class="material-symbols-outlined">edit_note</span>
+							<span class="material-symbols-outlined">delete</span>
+						</div>
+					</div>
+				</td>
+			</tr>
+			
+			`;
+			
+			$('#comment tbody').prepend(temp);
+			$('input[name=content]').val('');
+			
 		}, 'json').fail(function(a,b,c){
 			console.log(a, b, c);
 		});

@@ -1,6 +1,7 @@
 package com.test.toy.board;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.test.toy.board.model.BoardDAO;
 import com.test.toy.board.model.BoardDTO;
+import com.test.toy.board.model.CommentDTO;
 
 @WebServlet(value = "/board/view.do")
 public class View extends HttpServlet {
@@ -53,11 +55,15 @@ public class View extends HttpServlet {
 		}
 		
 		
+		//작성되어있는 댓글 불러오기
+		List<CommentDTO> clist = dao.listComment(seq);
+		
 		
 		//JSP에게 전달
 		req.setAttribute("dto", dto);
 		req.setAttribute("column", column);
 		req.setAttribute("word", word);
+		req.setAttribute("clist", clist);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/view.jsp");
 		dispatcher.forward(req, resp);
