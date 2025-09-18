@@ -64,6 +64,10 @@
 		</c:forEach>
 		</table>
 		
+		<div id="loading" style="text-align: center; display: none;">
+		<img src="/toy/asset/images/loading_gray.gif" alt="loading.gif" />
+		</div>
+		
 		<!-- 댓글 더보기 버튼 -->
 		<div style="text-align: center;">
 			<button class="comment" id="btnMoreComment" type="button">댓글 더보기</button>
@@ -166,7 +170,14 @@
 		
 		$('#btnMoreComment').click(() => {
 			//alert();
+			$('#loading').show();
+			setTimeout(more, 1000);
 			
+			
+			
+		});
+		
+		function more() {
 			$.get('/toy/board/morecomment.do', {
 				bseq: ${dto.seq},
 				begin: begin
@@ -201,12 +212,13 @@
 					alert('더 이상 댓글이 없습니다.');
 				}
 				
+				
+				$('#loading').hide();
+				
 			}, 'json').fail(function(a,b,c){
 				console.log(a,b,c);
 			});
-			
-			
-		});
+		}
 	
 	</script>
 

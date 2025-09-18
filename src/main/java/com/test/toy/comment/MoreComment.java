@@ -23,6 +23,13 @@ public class MoreComment extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//MoreComment.java
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		String bseq = req.getParameter("bseq");
 		String begin = req.getParameter("begin"); //end = begin+5
 		
