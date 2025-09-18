@@ -42,7 +42,7 @@
   - Login.java: 로그인
   - Logout.java: 로그아웃
   - Info.java: 회원정보
-- com.test.toy.user.model
+- __com.test.toy.user.model__
   - UserDAO.java
   - UserDTO.java
 - __com.test.toy.board(게시판 패키지)__
@@ -52,12 +52,19 @@
   - Edit.java
   - Del.java
   - Dummy.java: 더미데이터용
-- com.test.toy.board.model
+- __com.test.toy.board.model__
   - BoardDAO.java
   - BoardDTO.java
+  - CommentDTO.java
+  - ~~CommentDAO.java~~
 - __com.test.toy.filter__
   - EncodingFilter.java(인코딩 처리를 위한 필터)
   - AuthFilter.java
+- __com.test.toy.comment__ : Ajax 응답용 서블릿
+  - AddComment.java
+  - DelComment.java
+  - EditComment.java
+  - MoreComment.java
 
 #### JSP
 
