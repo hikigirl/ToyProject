@@ -222,6 +222,29 @@ public class BoardDAO {
 		return 0;
 	}
 
+	public int addComment(CommentDTO dto) {
+		// addcomment.do에서 호출하였음
+		
+		//insert 작업
+		try {
+
+			String sql = "INSERT INTO tblComment (seq, content, id, regdate, bseq) VALUES (seqComment.nextVal, ?, ?, DEFAULT, ?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getContent());
+			pstat.setString(2, dto.getId());
+			pstat.setString(3, dto.getBseq());
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return 0;
+	}
+
 	
 	
 	

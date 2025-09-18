@@ -103,3 +103,26 @@ SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a)
 SELECT count(*) AS cnt FROM VWBOARD;
 
 DELETE FROM tblboard WHERE seq >= 42;
+
+COMMIT;
+
+--댓글 테이블
+CREATE TABLE tblComment(
+	seq NUMBER PRIMARY KEY, --번호(pk)
+	content varchar2(2000) NOT NULL, --댓글내용
+	id varchar2(50) NOT NULL REFERENCES tblUser(id), --아이디(FK)
+	regdate DATE DEFAULT sysdate NOT NULL, --작성날짜
+	bseq NUMBER NOT NULL REFERENCES tblBoard(seq) --부모글(FK)
+);
+
+CREATE SEQUENCE seqComment;
+
+SELECT * FROM tblcomment;
+
+INSERT INTO tblComment (seq, content, id, regdate, bseq) VALUES (seqComment.nextVal, ? ?, DEFAULT, ?);
+
+
+--초기화
+DROP TABLE tblcomment;
+DROP TABLE TBLBOARD;
+DROP TABLE tbluser;

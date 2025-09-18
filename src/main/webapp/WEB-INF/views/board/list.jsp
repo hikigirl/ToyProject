@@ -50,6 +50,13 @@
 				<th>날짜</th>
 				<th>조회수</th>
 			</tr>
+			
+			<c:if test="${list.size()==0}">
+			<tr>
+				<td colspan="5">게시물이 없습니다.</td>
+			</tr>
+			</c:if>
+			
 			<c:forEach items="${list}" var="dto">
 			<tr>
 				<td>${dto.seq}</td>
