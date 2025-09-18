@@ -1,5 +1,11 @@
 -- ToyProject -> script.sql
 
+--초기화
+DROP TABLE tblcomment;
+DROP TABLE TBLBOARD;
+DROP TABLE tbluser;
+
+
 -- 첫번째 기능. 회원 테이블
 DROP TABLE tblUser;
 CREATE TABLE tblUser (
@@ -123,10 +129,33 @@ INSERT INTO tblComment (seq, content, id, regdate, bseq) VALUES (seqComment.next
 
 SELECT tblcomment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblcomment WHERE bseq = ? ORDER BY seq DESC;
 
+
 SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE seq = (SELECT max(seq) FROM tblcomment);
 
 
---초기화
-DROP TABLE tblcomment;
-DROP TABLE TBLBOARD;
-DROP TABLE tbluser;
+INSERT INTO tblcomment (seq, content, id, regdate, bseq) VALUES (seqComment.nextVal, ?, ?, DEFAULT, ?);
+
+--댓글 페이징
+SELECT * FROM (SELECT
+	
+	tblComment.*, 
+	(SELECT name FROM tblUser WHERE id = tblComment.id) AS name
+	FROM tblComment 
+	WHERE bseq = 301 
+	ORDER BY seq DESC) 
+WHERE rownum <= 10;
+
+
+
+SELECT * FROM (SELECT	tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name	FROM tblComment WHERE bseq = 301 ORDER BY seq DESC) WHERE rownum <= 10;
+
+
+--댓글 5개씩 더 불러오기
+SELECT * FROM (SELECT a.*, rownum AS rnum FROM (SELECT
+	tblComment.*, 
+	(SELECT name FROM tblUser WHERE id = tblComment.id) AS name
+	FROM tblComment 
+	WHERE bseq = 301 
+	ORDER BY seq DESC) a) WHERE rnum BETWEEN 1 AND 1 + 4;
+
+SELECT * FROM (SELECT a.*, rownum AS rnum FROM (SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE bseq = 301 ORDER BY seq DESC) a) WHERE rnum BETWEEN 1 AND 1 + 4;

@@ -63,6 +63,12 @@
 			</tr>
 		</c:forEach>
 		</table>
+		
+		<!-- 댓글 더보기 버튼 -->
+		<div style="text-align: center;">
+			<button class="comment" id="btnMoreComment" type="button">댓글 더보기</button>
+		</div>
+		
 		<!-- 댓글 쓰기 -->
 		<form id="addCommentForm">
 
@@ -97,64 +103,111 @@
 	</div>
 
 	<script>
-	$('#btnAddComment').click(() => {
-		//alert();
-		// $.ajax({
-		// 	type: 'POST',
-		// 	url: '/toy/board/addcomment.do',
-		// 	data: {},
-		// 	dataType: 'json',
-		// 	success: function(result) {
-
-		// 	},
-		// 	error: function(a, b, c) {
-		// 		console.log(a, b, c);
-		// 	}
-		// });
-
-		$.post('/toy/board/addcomment.do', {
-			//전송데이터
-			content: $('input[name=content]').val(),
-			bseq: ${dto.seq}
-		}, function(result) {
-			//alert(result.result);
-			
-			
-			
-			//댓글 목록에 내가 방금 쓴 댓글도 반영되도록 하기
-			//목록 갱신
-			
-			//새로 작성한 댓글만 화면에 동적으로 추가
-			//result 내부에 dto객체가 새로 생겼음
-			let temp = `
-			<tr>
-				<td class="commentContent">
-					<div>\${result.dto.content}</div>
-					<div>\${result.dto.regdate}</div>
-				</td>
-				<td class="commentInfo">
-					<div>
-						<div>\${result.dto.name}(\${result.dto.id})</div>
+		$('#btnAddComment').click(() => {
+			//alert();
+			// $.ajax({
+			// 	type: 'POST',
+			// 	url: '/toy/board/addcomment.do',
+			// 	data: {},
+			// 	dataType: 'json',
+			// 	success: function(result) {
+	
+			// 	},
+			// 	error: function(a, b, c) {
+			// 		console.log(a, b, c);
+			// 	}
+			// });
+	
+			$.post('/toy/board/addcomment.do', {
+				//전송데이터
+				content: $('input[name=content]').val(),
+				bseq: ${dto.seq}
+			}, function(result) {
+				//alert(result.result);
+				
+				
+				
+				//댓글 목록에 내가 방금 쓴 댓글도 반영되도록 하기
+				//목록 갱신
+				
+				//새로 작성한 댓글만 화면에 동적으로 추가
+				//result 내부에 dto객체가 새로 생겼음
+				let temp = `
+				<tr>
+					<td class="commentContent">
+						<div>\${result.dto.content}</div>
+						<div>\${result.dto.regdate}</div>
+					</td>
+					<td class="commentInfo">
 						<div>
-							<span class="material-symbols-outlined">edit_note</span>
-							<span class="material-symbols-outlined">delete</span>
+							<div>\${result.dto.name}(\${result.dto.id})</div>
+							<div>
+								<span class="material-symbols-outlined">edit_note</span>
+								<span class="material-symbols-outlined">delete</span>
+							</div>
 						</div>
-					</div>
-				</td>
-			</tr>
-			
-			`;
-			
-			$('#comment tbody').prepend(temp);
-			$('input[name=content]').val('');
-			
-		}, 'json').fail(function(a,b,c){
-			console.log(a, b, c);
+					</td>
+				</tr>
+				
+				`;
+				
+				$('#comment tbody').prepend(temp);
+				$('input[name=content]').val('');
+				
+			}, 'json').fail(function(a,b,c){
+				console.log(a, b, c);
+			});
+	
 		});
-
-
-	});
+	
+		//처음 로드되는 댓글의 rownum: 1~10
+		// 11~15, 16~20, 21~25...
+		let begin = 11;
 		
+		$('#btnMoreComment').click(() => {
+			//alert();
+			
+			$.get('/toy/board/morecomment.do', {
+				bseq: ${dto.seq},
+				begin: begin
+			}, function(result) {
+				if(result.length > 0){
+					//댓글 5개를 화면에 출력
+					result.forEach(obj => {
+						let temp = `
+							<tr>
+								<td class="commentContent">
+									<div>\${obj.content}</div>
+									<div>\${obj.regdate}</div>
+								</td>
+								<td class="commentInfo">
+									<div>
+										<div>\${obj.name}(\${obj.id})</div>
+										<div>
+											<span class="material-symbols-outlined">edit_note</span>
+											<span class="material-symbols-outlined">delete</span>
+										</div>
+									</div>
+								</td>
+							</tr>
+							
+							`;
+						$('#comment tbody').append(temp);
+					});
+					
+					
+					begin += 5; //성공했을 때 5를 증가
+				} else {
+					alert('더 이상 댓글이 없습니다.');
+				}
+				
+			}, 'json').fail(function(a,b,c){
+				console.log(a,b,c);
+			});
+			
+			
+		});
+	
 	</script>
 
 </body>

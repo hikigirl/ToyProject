@@ -28,7 +28,7 @@ public class View extends HttpServlet {
 		
 		BoardDAO dao = new BoardDAO();
 		
-		if(session.getAttribute("read").toString().equals("n")) {
+		if(session.getAttribute("read")!= null && session.getAttribute("read").toString().equals("n")) {
 			//조회수 증가
 			dao.updateReadCount(seq);
 			session.setAttribute("read", "y");

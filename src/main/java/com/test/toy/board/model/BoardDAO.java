@@ -250,7 +250,7 @@ public class BoardDAO {
 		//view.java에서 호출하였음
 		try {
 			
-			String sql = "SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE bseq = ? ORDER BY seq DESC";
+			String sql = "SELECT * FROM (SELECT	tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE bseq = ? ORDER BY seq DESC) WHERE rownum <= 10";
 			
 			pstat = conn.prepareStatement(sql);
 			pstat.setString(1, bseq);
@@ -304,6 +304,44 @@ public class BoardDAO {
 				
 				return dto;				
 			}	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public List<CommentDTO> moreComment(Map<String, String> map) {
+		// morecomment.do에서 호출
+		try {
+			
+			String sql = "SELECT * FROM (SELECT a.*, rownum AS rnum FROM (SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE bseq = ? ORDER BY seq DESC) a) WHERE rnum BETWEEN ? AND ? + 4";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("begin"));
+			pstat.setString(3, map.get("begin"));
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<CommentDTO> list = new ArrayList<CommentDTO>();
+			
+			while (rs.next()) {
+				
+				CommentDTO dto = new CommentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setContent(rs.getString("content"));
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setBseq(rs.getString("bseq"));
+				
+				list.add(dto);			
+			}	
+			
+			return list;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
