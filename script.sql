@@ -101,3 +101,5 @@ SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a)
 
 
 SELECT count(*) AS cnt FROM VWBOARD;
+
+DELETE FROM tblboard WHERE seq >= 42;
