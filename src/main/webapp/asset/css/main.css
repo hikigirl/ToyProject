@@ -45,6 +45,13 @@
 	color: tomato;
 }
 
+/* 페이징 */
+#pagebar {
+	text-align: center;
+	margin: 1rem;
+}
+
+
 /* 게시판 보기 */
 #view {
 	margin: 0;
@@ -72,3 +79,5 @@
 #labelsearch {
 	margin: 0.5rem;
 }
+
+

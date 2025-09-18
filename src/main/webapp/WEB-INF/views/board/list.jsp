@@ -22,8 +22,25 @@
 			</c:if>
 		</h1>
 		<c:if test="${map.search=='y'}">
-		<div id="labelsearch">'${map.word}'(으)로 검색한 결과가 ${list.size()}건 있습니다.</div>
+		<div id="labelsearch">'${map.word}'(으)로 검색한 결과가 ${map.totalCount}건 있습니다.</div>
 		</c:if>
+		
+		<%-- <div id="pagebar">
+			<span>페이지 </span>
+			<input type="number" id="page" class="short" value="${map.nowPage}" min="1" max="${map.totalPage}" />
+			<input type="button" value="이동하기" onclick="location.href='/toy/board/list.do?page=' + $('#page').val();"/>
+		</div> --%>
+		
+		<%-- <div id="pagebar">
+			<select onchange="location.href='/toy/board/list.do?page=' + $(this).val() + '&column=${map.column}&word=${map.word}';">
+				<c:forEach begin="1" end="${map.totalPage}" var="i">
+					<option value="${i}" <c:if test="${map.nowPage==i}">selected</c:if>>
+					${i}페이지</option>
+					
+				</c:forEach>
+			</select>
+		</div> --%>
+			
 		
 		<table id="list">
 			<tr>
@@ -65,6 +82,9 @@
 			<input type="submit" value="검색하기" />
 		</form>
 		
+		<!-- 페이지바 (자바에서 작업 예정)-->
+		<div id="pagebar">${pagebar}</div> 
+		<!--  -->
 		<div>
 			<c:if test="${not empty id}">
 			<!-- 글쓰기 페이지.. -->

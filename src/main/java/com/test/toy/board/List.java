@@ -42,14 +42,50 @@ public class List extends HttpServlet {
 		map.put("word", word);
 		map.put("search", search);
 		
-		
-		
-		
 		HttpSession session = req.getSession();
 		//조회수 증가 방지
 		session.setAttribute("read", "n");
 		
+		//페이징
+		//list.do -> 1페이지
+		//list.do?page=1
+		//list.do?page=2
+		String page = req.getParameter("page");
+		int nowPage = 0; 		//현재 페이지 번호
+		int totalCount = 0;		//게시글 수 - 264개
+		int pageSize = 10;		//한 페이지 당 보여줄 게시글 수
+		int totalPage = 0;		//총 페이지 수(약 26~27페이지)
+		int begin = 0;			//페이징 시작 위치
+		int end = 0;			//페이징 끝 위치
+		//페이지바를 또 페이징하기 위한 변수
+		int n = 0;				//페이지바의 페이지 번호(링크에 출력되고있는 숫자)
+		int loop = 0;			//페이지바 루프 변수
+		int blockSize = 10;		//한번에 보여줄 페이지 번호 수
+		
+		if (page == null || page.equals("")) { 
+			//쿼리스트링에 아무것도 없는경우
+			nowPage = 1;
+		} else {
+			nowPage = Integer.parseInt(page);
+		}
+		//list.do?page=1 -> where rnum between 1 and 10
+		//list.do?page=2 -> where rnum between 11 and 20
+		begin = ((nowPage-1) * pageSize) + 1;
+		end = begin + pageSize - 1;
+		
+		map.put("begin", begin+"");
+		map.put("end", end+"");
+		map.put("nowPage", nowPage+"");
+		
+		
 		BoardDAO dao = new BoardDAO();
+		
+		//총 게시물 수 계산
+		totalCount = dao.getTotalCount(map);
+		//System.out.println(totalCount);
+		totalPage = (int)Math.ceil((double)totalCount / pageSize);
+		map.put("totalPage", totalPage+"");
+		map.put("totalCount", totalCount+"");
 		
 		java.util.List<BoardDTO> list = dao.list(map);
 		
@@ -83,10 +119,55 @@ public class List extends HttpServlet {
 		}
 		
 		
-		//JSP에게 넘긴다
+		//페이지바(3번째 방법)
+		String pagebar = "";
+		
+//		for(int i=1; i<=totalPage; i++) {
+//			pagebar += 
+//				String.format(" <a href='/toy/board/list.do?page=%d'>%d</a> ", i, i);			
+//		}
+		
+		loop = 1; 	//루프 변수(10바퀴)
+		n = ((nowPage - 1) / blockSize) * blockSize + 1; //페이지 번호
+		
+//		pagebar += "[이전 10페이지]";
+		
+		if (n == 1) {
+			pagebar += String.format(" <a href='#!'>[이전 %d페이지]</a> ", blockSize);
+		} else {
+			pagebar += String.format(" <a href='/toy/board/list.do?page=%d'>[이전 %d페이지]</a> ", n - 1, blockSize);
+		}
+		
+		while(!(loop>blockSize || n > totalPage)) {
+			if(n==nowPage) {
+				pagebar += String.format(" <a href='#!' style='color:tomato;'>%d</a> ", n);
+				
+			} else {
+				pagebar += String.format(" <a href='/toy/board/list.do?page=%d'>%d</a> ", n, n);
+				
+			}
+			loop++;
+			n++;
+		}
+		
+//		pagebar += "[다음 10페이지]";
+		if (n >= totalPage) {
+			pagebar += String.format(" <a href='#!'>[다음 %d페이지]</a> ", blockSize);
+		} else {
+			pagebar += String.format(" <a href='/toy/board/list.do?page=%d'>[다음 %d페이지]</a> ", n, blockSize);
+		}
+		
+		
+		
+		
+		
+		//JSP에게 넘겨주는 값들
 		req.setAttribute("list", list);
 		//아직 검색에 관련된 값들을 jsp에 넘겨주지 않았음(map에 넣은 값)
 		req.setAttribute("map", map); //검색어와 검색중인 컬럼이 담겨 있음
+		//페이지 번호도 같이 넘겼음(map에 담아서)
+		//페이지바를 넘김
+		req.setAttribute("pagebar", pagebar);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
 		dispatcher.forward(req, resp);

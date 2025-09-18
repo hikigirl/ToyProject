@@ -66,8 +66,11 @@ public class BoardDAO {
 				//where 컬럼명 like '%검색어%';
 				where = String.format("WHERE %s like '%%%s%%'", map.get("column"), map.get("word"));
 			}
-			
-			String sql = "SELECT * FROM vwBoard " + where;
+//			SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a)
+//			WHERE rnum BETWEEN 1 AND 10
+			String sql = 
+					String.format("SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a %s) WHERE rnum BETWEEN %s AND %s", 
+					where, map.get("begin"), map.get("end"));
 			
 			
 			stat = conn.createStatement();
@@ -187,6 +190,35 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return 0;
+	}
+
+	public int getTotalCount(Map<String, String> map) {
+		// list.do에서 호출하였음
+		
+		try {
+
+			String where = "";
+			if(map.get("search").equals("y")) {
+				//where = "조건";
+				//where 컬럼명 like '%검색어%';
+				where = String.format("WHERE %s like '%%%s%%'", map.get("column"), map.get("word"));
+			}
+			
+			String sql = "SELECT count(*) AS cnt FROM VWBOARD " + where;
+
+			pstat = conn.prepareStatement(sql);
+
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt("cnt");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return 0;
 	}
 

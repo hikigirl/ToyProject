@@ -41,6 +41,7 @@ CREATE SEQUENCE seqBoard;
 INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT);
 
 SELECT * FROM TBLBOARD;
+SELECT count(*) FROM TBLBOARD;
 
 SELECT seq, subject, id, readcount, regdate FROM TBLBOARD ORDER BY seq DESC;
 
@@ -91,3 +92,12 @@ SELECT * FROM vwboard WHERE 컬럼명 like '%검색어%';
 SELECT * FROM vwboard WHERE content LIKE '%셋%';
 SELECT * FROM vwboard;
 
+
+--페이징
+--CREATE OR REPLACE VIEW  AS 
+SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a) WHERE rnum BETWEEN 1 AND 10;
+SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a)
+	WHERE rnum BETWEEN 11 AND 20;
+
+
+SELECT count(*) AS cnt FROM VWBOARD;

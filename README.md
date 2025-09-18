@@ -51,6 +51,7 @@
   - Add.java
   - Edit.java
   - Del.java
+  - Dummy.java: 더미데이터용
 - com.test.toy.board.model
   - BoardDAO.java
   - BoardDTO.java
@@ -114,7 +115,7 @@
 
 #### 글 제목이나 내용에 태그가 작성될 때
 
-textarea나 input 태그에 작성한 내용이 태그라면 그대로 실행되므로 escape 시켜줘야한다
+textarea나 input 태그에 작성한 내용이 태그라면 그대로 실행되므로 escape 시켜줘야한다. <br>
 escape하는 시점은?
 1. ~~DB에 입력할 때부터 바꾸기~~ -> 원본은 훼손하지 않는다
 2. **원본은 두고 꺼낼 때 바꾸기**
@@ -124,3 +125,10 @@ escape하는 시점은?
 #### 조회수 정책
 
 사이트마다 정책이 조금씩 다름
+
+#### 페이징
+
+- 게시물을 일정 개수만큼 가져오는 기법
+- 페이지 길어짐(네트워크 트래픽, 성능 저하)
+- 페이지 개념 -> 오라클(rownum, fetch)
+- 1페이지당 10개씩 보여줄 예정
