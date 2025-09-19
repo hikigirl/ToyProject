@@ -159,3 +159,15 @@ SELECT * FROM (SELECT a.*, rownum AS rnum FROM (SELECT
 	ORDER BY seq DESC) a) WHERE rnum BETWEEN 1 AND 1 + 4;
 
 SELECT * FROM (SELECT a.*, rownum AS rnum FROM (SELECT tblComment.*, (SELECT name FROM tblUser WHERE id = tblComment.id) AS name FROM tblComment WHERE bseq = 301 ORDER BY seq DESC) a) WHERE rnum BETWEEN 1 AND 1 + 4;
+
+
+CREATE OR REPLACE VIEW vwBoard AS 
+SELECT 
+	seq, subject, id, readcount, regdate, content,
+	(SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,
+	(sysdate - regdate) AS isnew,
+	(SELECT count(*) FROM tblComment WHERE bseq=tblBoard.seq) AS commentCount
+FROM TBLBOARD
+ORDER BY seq DESC;
+
+

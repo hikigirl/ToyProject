@@ -54,10 +54,14 @@
 				<td class="commentInfo">
 					<div>
 						<div>${cdto.name}(${cdto.id})</div>
+						
+						<c:if test="${not empty id && (id == cdto.id|| lv=='2')}">
 						<div>
-							<span class="material-symbols-outlined">edit_note</span> <span
-								class="material-symbols-outlined">delete</span>
+							<span class="material-symbols-outlined" onclick =" edit(${cdto.seq})">edit_note</span>
+							<span class="material-symbols-outlined" onclick =" del(${cdto.seq})">delete</span>
 						</div>
+						</c:if>
+						
 					</div>
 				</td>
 			</tr>
@@ -146,8 +150,8 @@
 						<div>
 							<div>\${result.dto.name}(\${result.dto.id})</div>
 							<div>
-								<span class="material-symbols-outlined">edit_note</span>
-								<span class="material-symbols-outlined">delete</span>
+								<span class="material-symbols-outlined" onclick = "edit(\${result.dto.seq});">edit_note</span>
+								<span class="material-symbols-outlined" onclick = "del(\${result.dto.seq});">delete</span>
 							</div>
 						</div>
 					</td>
@@ -194,10 +198,20 @@
 								<td class="commentInfo">
 									<div>
 										<div>\${obj.name}(\${obj.id})</div>
-										<div>
-											<span class="material-symbols-outlined">edit_note</span>
-											<span class="material-symbols-outlined">delete</span>
-										</div>
+							`;
+						//익명 사용자: if('') -> false
+						//인증 사용자: if('hong') -> true
+						if('${id}' && ('${id}' == obj.id || ${lv==2})) {
+							temp+=`		
+								<div>
+									<span class="material-symbols-outlined" onclick = "edit(\${obj.seq});">edit_note</span>
+									<span class="material-symbols-outlined" onclick = "del(\${obj.seq});">delete</span>
+								</div>
+						
+							`;	
+						}
+										
+						temp+=`				
 									</div>
 								</td>
 							</tr>
@@ -220,6 +234,74 @@
 			});
 		}
 	
+		//댓글 수정(형식 만들기) 함수
+		function edit(seq) {
+			
+			$('.commentEditRow').remove();
+			
+			//let content = '수정할 댓글입니다.';
+			let content = $(event.target).parents('tr').children().eq(0).children().eq(0).text();
+			$(event.target).parents('tr').after(`
+					
+					<tr class="commentEditRow">
+						<td><input type="text" name="content" class="full" required value="\${content}" id="txtComment"></td>
+						<td class="commentEdit">
+							<span class="material-symbols-outlined" onclick="editComment(\${seq});">edit_square</span>
+							<span class="material-symbols-outlined" onclick="$(event.target).parents('tr').remove();">close</span>
+						</td>
+					</tr>
+						
+				`);
+		}
+		
+		function editComment(seq) {
+			/* alert(seq); */
+			//alert($('#txtComment').val());
+			
+			let div = $(event.target).parents('tr').prev().children().eq(0).children().eq(0);
+			let tr = $(event.target).parents('tr');
+			
+			
+			//ajax로 서버에 넘겨서 update문
+			$.post('/toy/board/editcomment.do', {
+				seq: seq,
+				content: $('#txtComment').val()
+			}, function(result) {
+				if(result.result =='1') {
+					//alert('수정 성공');
+					div.text($('#txtComment').val());
+					tr.remove();
+				} else {
+					alert('수정에 실패했습니다.');
+				}
+			}, 'json').fail(function(a,b,c) {
+				console.log(a,b,c);
+			});
+		}
+		
+		//댓글 삭제 함수
+		function del(seq) {
+			$('.commentEditRow').remove();
+			let tr = $(event.target).parents('tr');
+			
+			if(confirm('삭제하시겠습니까?')) {
+				$.post('/toy/board/delcomment.do', {
+					seq:seq
+				}, function (result) {
+					if(result.result==1) {
+						alert('삭제 성공');
+						//$(event.target).parents('tr').remove();
+						//console.log(event.target);
+						tr.remove();
+					} else {
+						alert('삭제에 실패했습니다.');
+					}
+				}, 'json')
+				.fail(function(a,b,c) {
+					console.log(a,b,c);
+				});
+			}
+		}
 	</script>
 
 </body>

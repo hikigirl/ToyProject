@@ -9,13 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
+import com.test.toy.board.model.BoardDAO;
+
 @WebServlet(value = "/board/delcomment.do")
 public class DelComment extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//DelComment.java
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/delcomment.jsp");
-		dispatcher.forward(req, resp);
+		String seq = req.getParameter("seq");
+		
+		BoardDAO dao = new BoardDAO();
+		int result = dao.delComment(seq);
+		
+		resp.setContentType("application/json");
+		JSONObject obj = new JSONObject();
+		obj.put("result", result);
+		
+		resp.getWriter().print(obj.toString());
+		resp.getWriter().close();
 	}
 }

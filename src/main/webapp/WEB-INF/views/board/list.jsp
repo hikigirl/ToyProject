@@ -62,7 +62,14 @@
 				<td>${dto.seq}</td>
 				<td>
 					<a href="/toy/board/view.do?seq=${dto.seq}&column=${map.column}&word=${map.word}">${dto.subject}</a>
-					
+					<!-- 댓글 개수(댓글이 없을때는 숨김) -->
+					<c:if test="${dto.commentCount>0}">
+					<span class="commentCount">
+						<span class="material-symbols-outlined">chat</span>
+						${dto.commentCount}
+					</span>
+					</c:if>
+					<!-- 최신글 표시 -->
 					<c:if test="${dto.isnew < 1}">
 						<span class="isnew">new</span>
 					</c:if>

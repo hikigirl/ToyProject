@@ -90,6 +90,7 @@ public class BoardDAO {
 				
 				dto.setName(rs.getString("name"));
 				dto.setIsnew(rs.getDouble("isnew"));
+				dto.setCommentCount(rs.getString("commentCount"));
 				
 				list.add(dto);				
 			}	
@@ -348,6 +349,42 @@ public class BoardDAO {
 		}
 		
 		return null;
+	}
+
+	public int editComment(CommentDTO dto) {
+		// editcomment.do에서 호출하였음
+		try {
+
+			String sql = "UPDATE TBLCOMMENT SET content = ? WHERE seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getContent());
+			pstat.setString(2, dto.getSeq());
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int delComment(String seq) {
+		// delcomment.do에서 호출
+		try {
+
+			String sql = "DELETE FROM TBLCOMMENT WHERE seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 	

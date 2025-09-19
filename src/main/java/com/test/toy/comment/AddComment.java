@@ -62,7 +62,7 @@ public class AddComment extends HttpServlet {
 		
 		obj.put("dto", subObj);
 		
-		System.out.println(obj.toString());
+		//System.out.println(obj.toString());
 		
 		resp.getWriter().print(obj.toString());
 		resp.getWriter().close();
