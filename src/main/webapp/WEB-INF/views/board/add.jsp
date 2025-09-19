@@ -11,7 +11,7 @@
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
 	<div id="main">
 		<h1>게시판 <small>글쓰기</small></h1>
-		<form action="/toy/board/add.do" method="POST">
+		<form action="/toy/board/add.do" method="POST" enctype="multipart/form-data">
 		<table class="vertical">
 			<tr>
 				<th>제목</th>
@@ -21,6 +21,14 @@
 				<th>내용</th>
 				<td><textarea name="content" id="content" class="full" required="required"></textarea></td>
 			</tr>
+			
+			
+			<tr>
+				<th>장소</th>
+				<td><input type="file" name="attach" class="full" accept="image/*"/></td>
+			</tr>
+		
+			
 		</table>
 		<!-- 쓰기버튼과 돌아가기 버튼 -->
 		<div>

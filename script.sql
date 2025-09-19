@@ -170,4 +170,26 @@ SELECT
 FROM TBLBOARD
 ORDER BY seq DESC;
 
+SELECT * FROM vwboard;
 
+--댓글수정
+UPDATE TBLCOMMENT SET content = ? WHERE seq = ?;
+
+--첨부파일 기능
+DROP TABLE tblcomment;
+DROP TABLE TBLBOARD;
+
+CREATE TABLE tblBoard (
+	seq NUMBER PRIMARY KEY, 							--번호(pk)
+	subject varchar2(300) NOT NULL, 					--제목
+	content varchar2(4000) NOT NULL, 					--내용
+	id varchar2(50) NOT NULL REFERENCES tblUser(id), --작성자 아이디(fk)
+	regdate DATE DEFAULT sysdate NOT NULL, 			--작성날짜
+	readcount NUMBER DEFAULT 0 NOT NULL, 				--조회수
+	attach varchar2(300) NULL 							--첨부파일
+);
+
+INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT, ?);
+
+
+SELECT * FROM tblboard;

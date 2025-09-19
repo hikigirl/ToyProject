@@ -1,5 +1,6 @@
 package com.test.toy.board;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.GpsDirectory;
 import com.test.toy.board.model.BoardDAO;
 import com.test.toy.board.model.BoardDTO;
 import com.test.toy.board.model.CommentDTO;
@@ -34,7 +38,7 @@ public class View extends HttpServlet {
 			session.setAttribute("read", "y");
 		}
 		
-		BoardDTO dto = dao.get(seq);
+		BoardDTO dto = dao.get(seq); //DB 작업(DAO)
 		
 		
 		//DTO 내부 데이터 조작
@@ -58,6 +62,38 @@ public class View extends HttpServlet {
 		//작성되어있는 댓글 불러오기
 		List<CommentDTO> clist = dao.listComment(seq);
 		
+		
+		//첨부파일의 메타정보를 가져오기
+		if(dto.getAttach()!=null
+			&& (dto.getAttach().toLowerCase().endsWith(".jpg")
+			|| dto.getAttach().toLowerCase().endsWith(".jpeg") 
+			|| dto.getAttach().toLowerCase().endsWith(".png") 
+			|| dto.getAttach().toLowerCase().endsWith(".gif"))) {
+			//BufferedImage img = ImageIO.read(new File(req.getServletContext().getRealPath("/asset/place") +"/" + dto.getAttach()));
+			
+			//System.out.println(img.getWidth());
+			//System.out.println(img.getHeight());
+			
+			//GPS 정보
+			try {
+				Metadata metadata = ImageMetadataReader.readMetadata(new File(req.getRealPath("/asset/place") + "/" + dto.getAttach()));
+								
+				GpsDirectory gps = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+				
+				if (gps.containsTag(GpsDirectory.TAG_LATITUDE)
+					  && gps.containsTag(GpsDirectory.TAG_LONGITUDE)) {
+					
+					req.setAttribute("lat", gps.getGeoLocation().getLatitude());
+					req.setAttribute("lng", gps.getGeoLocation().getLongitude());
+					
+				}
+			} catch (Exception e) {
+				// handle exception
+				System.out.println("View.doGet()");
+				e.printStackTrace();
+			}
+			
+		}
 		
 		//JSP에게 전달
 		req.setAttribute("dto", dto);

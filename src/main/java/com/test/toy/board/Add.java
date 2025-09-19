@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.test.toy.board.model.BoardDAO;
 import com.test.toy.board.model.BoardDTO;
 
@@ -28,8 +30,21 @@ public class Add extends HttpServlet {
 		// AddOk.java역할(dopost)
 		//req.setCharacterEncoding("UTF-8");  
 		//post방식에서 인코딩하는것 -> 매 페이지 작성하기 번거로워서 필터를 통해 구현해보기
-		String subject = req.getParameter("subject");
-		String content = req.getParameter("content");
+		
+		//첨부 파일 기능 추가 -> req를 multi로 변경하는 작업
+		MultipartRequest multi = new MultipartRequest(
+				req,
+				req.getServletContext().getRealPath("/asset/place"),
+				1024*1024*30,
+				"UTF-8",
+				new DefaultFileRenamePolicy());
+		
+		System.out.println(req.getServletContext().getRealPath("/asset/place")); //찾아가서 업로드되었는지 확인해볼 경로 출력
+		
+		
+		String subject = multi.getParameter("subject");
+		String content = multi.getParameter("content");
+		String attach = multi.getFilesystemName("attach");
 		//System.out.println(subject);
 		//System.out.println(content);
 		
@@ -37,6 +52,7 @@ public class Add extends HttpServlet {
 		BoardDTO dto = new BoardDTO();
 		dto.setSubject(subject);
 		dto.setContent(content);
+		dto.setAttach(attach);
 		
 		HttpSession session = req.getSession();
 		dto.setId(session.getAttribute("id").toString()); 

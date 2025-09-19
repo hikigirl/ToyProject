@@ -18,4 +18,6 @@ public class BoardDTO {
 	private String name;
 	private double isnew; //최신글인지 구별하는 용도
 	private String commentCount; //댓글 수 확인
+	
+	private String attach; //첨부파일
 }

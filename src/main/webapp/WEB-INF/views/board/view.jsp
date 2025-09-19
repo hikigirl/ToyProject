@@ -40,6 +40,23 @@
 				<th>내용</th>
 				<td>${dto.content}</td>
 			</tr>
+			<c:if test = "${not empty dto.attach}">
+			<tr>
+				<th>장소</th>
+				<td><img src="/toy/asset/place/${dto.attach}" alt="${dto.attach}" id="imgPlace"/></td>
+			</tr>
+			<c:if test="${not empty lat}">
+			<tr>
+				<th>위치</th>
+				<td>
+					<div id="map"></div>
+					<%-- ${lat}, ${lng} --%>
+				</td>
+			</tr>
+			</c:if>
+			</c:if>
+			
+			
 		</table>
 
 
@@ -109,7 +126,11 @@
 		</div>
 
 	</div>
-
+	
+<!--------------------------------------------------------------------->
+	
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e002eba63b35b03451ac4917b7108dd6"></script>
 	<script>
 		$('#btnAddComment').click(() => {
 			//alert();
@@ -302,6 +323,40 @@
 				});
 			}
 		}
+		
+		<c:if test="${not empty lat}">
+		//지도를 담을 영역의 DOM 레퍼런스
+		var container = document.getElementById('map');
+	
+		//지도를 생성할 때 필요한 기본 옵션
+		var options = { 
+			
+			//지도의 중심좌표.
+			center: new kakao.maps.LatLng(37.499349, 127.033245),
+			
+			//지도의 레벨(확대, 축소 정도)
+			level: 3 
+		};
+	
+		var map = new kakao.maps.Map(container, options);
+		
+		const path = '/toy/asset/images/studio.png';
+		const size = new kakao.maps.Size(64, 64);
+		const op = {
+			offset: new kakao.maps.Point(32, 64)
+		};
+		const img = new kakao.maps.MarkerImage(path, size, op);
+		
+		const m1 = new kakao.maps.Marker({
+			position: new kakao.maps.LatLng(${lat}, ${lng}),
+			image:img
+		});
+		m1.setMap(map);
+		map.panTo(m1.getPosition());
+		
+		
+		</c:if>
+		
 	</script>
 
 </body>
