@@ -87,6 +87,12 @@ public class List extends HttpServlet {
 		map.put("totalPage", totalPage+"");
 		map.put("totalCount", totalCount+"");
 		
+		
+		//해시태그 기능 관련 코드
+		String tag = req.getParameter("tag");
+		map.put("tag", tag);
+		
+		
 		java.util.List<BoardDTO> list = dao.list(map);
 		
 		//데이터를 받아오고 아직 jsp에게 넘기기 전

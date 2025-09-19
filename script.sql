@@ -232,5 +232,12 @@ FROM tblBoard b
 		ON h.SEQ = t.hseq
 WHERE b.seq = 362;
 
+SELECT h.hashtag FROM tblBoard b INNER JOIN tbltagging t ON b.SEQ = t.bseq INNER JOIN tblhashtag h ON h.SEQ = t.hseq WHERE b.seq = ?;
 
 
+SELECT * 
+FROM (SELECT a.*, rownum AS rnum FROM vwBoard a) b
+	INNER JOIN tbltagging t ON b.seq=t.bseq
+	INNER JOIN tblhashtag h ON h.seq=t.hseq
+WHERE rnum BETWEEN 1 AND 100
+	AND h.hashtag = '우중충...';

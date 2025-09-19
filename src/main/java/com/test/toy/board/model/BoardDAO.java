@@ -69,9 +69,15 @@ public class BoardDAO {
 			}
 //			SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a)
 //			WHERE rnum BETWEEN 1 AND 10
-			String sql = 
-					String.format("SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a %s) WHERE rnum BETWEEN %s AND %s", 
-					where, map.get("begin"), map.get("end"));
+			String sql = "";
+			if(map.get("tag") == null) {
+				sql = String.format("SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a %s) WHERE rnum BETWEEN %s AND %s", 
+						where, map.get("begin"), map.get("end"));
+			} else {
+				sql = String.format("SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a) b INNER JOIN tbltagging t ON b.seq=t.bseq INNER JOIN tblhashtag h ON h.seq=t.hseq WHERE rnum BETWEEN %s AND %s AND h.hashtag = '%s'",
+						map.get("begin"), map.get("end"), map.get("tag"));
+			}
+			
 			
 			
 			stat = conn.createStatement();
