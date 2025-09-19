@@ -193,3 +193,44 @@ INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach) VAL
 
 
 SELECT * FROM tblboard;
+
+
+
+--해시 태그 기능
+CREATE TABLE tblHashtag(
+	seq NUMBER PRIMARY KEY, 				 	--번호(pk)
+	hashtag varchar2(100) UNIQUE NOT NULL  --해시태그(UQ)
+);
+
+CREATE SEQUENCE seqHashtag;
+
+CREATE TABLE tblTagging(
+	seq NUMBER PRIMARY KEY, 							--번호(PK)
+	bseq NUMBER NOT NULL REFERENCES tblBoard(seq), 	--글번호(FK)
+	hseq NUMBER NOT NULL REFERENCES tblhashtag(seq) 	-- 태그번호(FK)
+);
+
+CREATE SEQUENCE seqTagging;
+SELECT max(seq) AS seq FROM TBLBOARD;
+
+SELECT seq FROM tblHashtag WHERE hashtag = ?;
+
+INSERT INTO tblHashtag (seq, hashtag) VALUES (seqHashtag.nextVal, ?);
+
+INSERT INTO tbltagging (seq, bseq, hseq) VALUES (seqTagging.nextVal, ?, ?);
+
+
+SELECT * FROM tblTagging;
+SELECT * FROM tblhashtag;
+
+--작성한 해시태그 가져오기
+SELECT h.hashtag
+FROM tblBoard b 
+	INNER JOIN tbltagging t
+		ON b.SEQ = t.bseq
+	INNER JOIN tblhashtag h
+		ON h.SEQ = t.hseq
+WHERE b.seq = 362;
+
+
+

@@ -4,9 +4,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<%@include file="/WEB-INF/views/inc/asset.jsp"%>
-
+	<meta charset="UTF-8">
+	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
+	<link rel="stylesheet" href="/toy/asset/css/tagify.css" />
+	<script src="/toy/asset/js/tagify.js"></script>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
@@ -56,6 +57,10 @@
 			</c:if>
 			</c:if>
 			
+			<tr>
+				<th>해시태그</th>
+				<td><input type="text" id="hashtag" class="full" /></td>
+			</tr>
 			
 		</table>
 
@@ -354,8 +359,22 @@
 		m1.setMap(map);
 		map.panTo(m1.getPosition());
 		
-		
 		</c:if>
+		
+		//해시태그 처리
+		let taglist = '';
+		<c:forEach items="${dto.hashtag}" var="tag">
+			taglist += '${tag},';
+		</c:forEach>
+		
+		$('#hashtag').val(taglist);
+		
+		const tagify = new Tagify(document.getElementById('hashtag'));
+		
+		tagify.on('click', (e) => {
+			//alert(e.detail.data.value);
+			location.href='/toy/board/list.do?tag=' + e.detail.data.value;
+		});
 		
 	</script>
 

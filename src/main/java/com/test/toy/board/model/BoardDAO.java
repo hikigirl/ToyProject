@@ -130,6 +130,19 @@ public class BoardDAO {
 				dto.setName(rs.getString("name"));
 				dto.setAttach(rs.getString("attach"));
 				
+				//해시태그 추가
+				sql = "SELECT h.hashtag FROM tblBoard b INNER JOIN tbltagging t ON b.SEQ = t.bseq INNER JOIN tblhashtag h ON h.SEQ = t.hseq WHERE b.seq = ?";
+				pstat = conn.prepareStatement(sql);
+				pstat.setString(1, seq);
+				rs=pstat.executeQuery();
+				
+				List<String> tlist = new ArrayList<String>();
+				while (rs.next()) {
+					tlist.add(rs.getString("hashtag"));
+				}
+				
+				dto.setHashtag(tlist);
+				
 				return dto;				
 			}	
 			
@@ -387,6 +400,88 @@ public class BoardDAO {
 		}
 		
 		return 0;
+	}
+
+	public String getBseq() {
+		// add.do에서 호출(태그 기능 구현위함)
+		try {
+
+			String sql = "SELECT max(seq) AS seq FROM TBLBOARD";
+
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+
+			if (rs.next()) {
+
+				return rs.getString("seq");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public String addHashtag(String tagName) {
+		// add.do에서 호출(태그 기능)
+		try {
+			
+			String sql = "SELECT seq FROM tblHashtag WHERE hashtag = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, tagName);
+			rs=pstat.executeQuery();
+			
+			//1. 태그가 존재하는지 확인
+			if (rs.next()) {
+				//존재 o -> 아무 일도 하지 않음
+			} else {
+				//존재 x
+				//2. 태그 추가
+				sql = "INSERT INTO tblHashtag (seq, hashtag) VALUES (seqHashtag.nextVal, ?)";
+				pstat = conn.prepareStatement(sql);
+				pstat.setString(1, tagName);
+				pstat.executeUpdate();
+			}
+			//3. 태그 번호 반환
+			//여기까지 오면 태그 테이블에 레코드가 하나 추가된 상태
+			//insert 이후에 덮어써야해서.. 다시 입력
+			sql = "SELECT seq FROM tblHashtag WHERE hashtag = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, tagName);
+			rs=pstat.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getString("seq");
+			}
+			
+			
+		} catch (Exception e) {
+			// handle exception
+			System.out.println("BoardDAO.addHashtag()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public void addTagging(Map<String, String> map) {
+		// add.do에서 호출(태그 기능)
+		
+		try {
+
+			String sql = "INSERT INTO tbltagging (seq, bseq, hseq) VALUES (seqTagging.nextVal, ?, ?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("hseq"));
+			
+			pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	

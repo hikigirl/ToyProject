@@ -1,5 +1,7 @@
 package com.test.toy.board.model;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +20,7 @@ public class BoardDTO {
 	private String name;
 	private double isnew; //최신글인지 구별하는 용도
 	private String commentCount; //댓글 수 확인
-	
 	private String attach; //첨부파일
+	private List<String> hashtag; //해시태그
+	
 }

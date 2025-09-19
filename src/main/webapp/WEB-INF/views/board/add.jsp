@@ -5,7 +5,8 @@
 <head>
 	<meta charset="UTF-8">
 	<%@include file="/WEB-INF/views/inc/asset.jsp"%>
-
+	<link rel="stylesheet" href="/toy/asset/css/tagify.css" />
+	<script src="/toy/asset/js/tagify.js"></script>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/inc/header.jsp"%>
@@ -28,6 +29,10 @@
 				<td><input type="file" name="attach" class="full" accept="image/*"/></td>
 			</tr>
 		
+			<tr>
+				<th>해시태그</th>
+				<td><input type="text" id="hashtag" class="full" name="hashtag" /></td>
+			</tr>
 			
 		</table>
 		<!-- 쓰기버튼과 돌아가기 버튼 -->
@@ -37,6 +42,21 @@
 		</div>
 		</form>
 	</div>
+	<script>
 	
+		const hashtag = document.getElementById('hashtag');
+		new Tagify(hashtag);
+		
+		//window.onclick = function() {
+			//alert(document.getElementById('hashtag').value); 
+			// --> json 형태
+			//[
+			//	{"value":"강아지"},
+			//	{"value":"고양이"},
+			//	{"value":"병아리"}
+			//]
+		//};
+		
+	</script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.test.toy.board;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -45,8 +51,10 @@ public class Add extends HttpServlet {
 		String subject = multi.getParameter("subject");
 		String content = multi.getParameter("content");
 		String attach = multi.getFilesystemName("attach");
+		String hashtag = multi.getParameter("hashtag");
 		//System.out.println(subject);
 		//System.out.println(content);
+		//System.out.println(hashtag); //해시태그 작성하지 않을 경우 빈 문자열
 		
 		BoardDAO dao = new BoardDAO();
 		BoardDTO dto = new BoardDTO();
@@ -57,8 +65,52 @@ public class Add extends HttpServlet {
 		HttpSession session = req.getSession();
 		dto.setId(session.getAttribute("id").toString()); 
 		
+		int result = dao.add(dto);
+		
+		//방금 쓴 글의 PK를 알아내기(태그기능 구현 위함)
+		String bseq = dao.getBseq();
+		
+		//해시태그 
+		if(!hashtag.equals("")) { //빈 문자열이 아니라면
+			//[{"value":"게시판"},{"value":"태그"},{"value":"프로젝트"},{"value":"JSP"}]
+			//JSONSimple을 이용한 parsing
+			
+			try {
+				JSONParser parser = new JSONParser();
+				JSONArray arr = (JSONArray)parser.parse(hashtag);
+				for(Object obj : arr) {
+					JSONObject tag = (JSONObject)obj;
+					String tagName = tag.get("value").toString();
+					
+					//System.out.println(tagName);
+					
+					//해시태그 -> DB 추가
+					//tagName -> unique 제약 걸려있음
+					String hseq = dao.addHashtag(tagName);
+					
+					//연결 테이블 -> 관계 추가(tblTagging에 insert)
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("bseq", bseq);
+					map.put("hseq", hseq);
+					
+					dao.addTagging(map);
+					
+					
+				}
+				
+				
+			} catch (Exception e) {
+				// handle exception
+				System.out.println("Add.doPost()");
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		
 		//crud 작업의 마무리 코드 -> 코드조각 등록 추천...
-		if (dao.add(dto) > 0) {
+		if (result > 0) {
 			resp.sendRedirect("/toy/board/list.do");
 		} else {
 			resp.getWriter().print("<html><meta charset='UTF-8'><script>alert('글쓰기에 실패하였습니다.'); history.back();</script></html>");
