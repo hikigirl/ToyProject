@@ -26,6 +26,8 @@ public class View extends HttpServlet {
 		//View.java
 		HttpSession session = req.getSession();
 		
+		
+		
 		String seq = req.getParameter("seq");
 		String column= req.getParameter("column");
 		String word= req.getParameter("word");
@@ -39,6 +41,13 @@ public class View extends HttpServlet {
 		}
 		
 		BoardDTO dto = dao.get(seq); //DB 작업(DAO)
+		
+		//비밀글 열람 통제 -> 작성자 or 관리자
+		if(dto.getSecret().equals("1")
+			&& (!session.getAttribute("id").toString().equals(dto.getId()) && session.getAttribute("lv").toString().equals("1"))) {
+			resp.sendRedirect("/toy/board/list.do");
+			return;
+		}
 		
 		
 		//DTO 내부 데이터 조작

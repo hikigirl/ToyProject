@@ -61,7 +61,19 @@
 			<tr>
 				<td>${dto.seq}</td>
 				<td>
+					<c:if test="${dto.secret == '1'}">
+					<span class="material-symbols-outlined" style="font-size:16px;">lock</span>
+					</c:if>
+					<!-- 비밀글 -->
+					<c:if test="${dto.secret == '0'|| (dto.secret == '1'&& (id == dto.id || lv=='2'))}">
 					<a href="/toy/board/view.do?seq=${dto.seq}&column=${map.column}&word=${map.word}">${dto.subject}</a>
+					</c:if>
+					
+					
+					<c:if test="${dto.secret == '1'&& id != dto.id && lv!='2'}">
+					<a href="#!" onclick="alert('작성자만 열람이 가능합니다.');"><%-- ${dto.subject} --%>비밀글입니다.</a>
+					</c:if>
+					
 					<!-- 댓글 개수(댓글이 없을때는 숨김) -->
 					<c:if test="${dto.commentCount>0}">
 					<span class="commentCount">

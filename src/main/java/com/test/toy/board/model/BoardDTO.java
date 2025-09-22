@@ -22,5 +22,5 @@ public class BoardDTO {
 	private String commentCount; //댓글 수 확인
 	private String attach; //첨부파일
 	private List<String> hashtag; //해시태그
-	
+	private String secret; //비밀글
 }

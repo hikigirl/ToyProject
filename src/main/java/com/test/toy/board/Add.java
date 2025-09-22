@@ -52,6 +52,10 @@ public class Add extends HttpServlet {
 		String content = multi.getParameter("content");
 		String attach = multi.getFilesystemName("attach");
 		String hashtag = multi.getParameter("hashtag");
+		String secret = multi.getParameter("secret");
+		
+		if (secret == null) secret = "0";
+		
 		//System.out.println(subject);
 		//System.out.println(content);
 		//System.out.println(hashtag); //해시태그 작성하지 않을 경우 빈 문자열
@@ -61,6 +65,7 @@ public class Add extends HttpServlet {
 		dto.setSubject(subject);
 		dto.setContent(content);
 		dto.setAttach(attach);
+		dto.setSecret(secret);
 		
 		HttpSession session = req.getSession();
 		dto.setId(session.getAttribute("id").toString()); 

@@ -166,7 +166,8 @@ SELECT
 	seq, subject, id, readcount, regdate, content,
 	(SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,
 	(sysdate - regdate) AS isnew,
-	(SELECT count(*) FROM tblComment WHERE bseq=tblBoard.seq) AS commentCount
+	(SELECT count(*) FROM tblComment WHERE bseq=tblBoard.seq) AS commentCount,
+	secret
 FROM TBLBOARD
 ORDER BY seq DESC;
 
@@ -186,8 +187,14 @@ CREATE TABLE tblBoard (
 	id varchar2(50) NOT NULL REFERENCES tblUser(id), --작성자 아이디(fk)
 	regdate DATE DEFAULT sysdate NOT NULL, 			--작성날짜
 	readcount NUMBER DEFAULT 0 NOT NULL, 				--조회수
-	attach varchar2(300) NULL 							--첨부파일
+	attach varchar2(300) NULL, 						--첨부파일
+	secret NUMBER(1) DEFAULT 0 NOT NULL, 				--비밀글(0-공개, 1-비밀)
+	notice number(1) NOT NULL 							--공지글(0-일반, 1-공지) 
 );
+
+ALTER TABLE tblBoard ADD (secret NUMBER(1) DEFAULT 0 NOT NULL);
+ALTER TABLE tblBoard ADD (notice NUMBER(1) DEFAULT 0 NOT NULL);
+SELECT * FROM tblBoard;
 
 INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT, ?);
 

@@ -31,7 +31,7 @@ public class BoardDAO {
 	public int add(BoardDTO dto) {
 		// add.do에서 호출하였음
 		try {
-			String sql = "INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT, ?)";
+			String sql = "INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach, secret) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT, ?, ?)";
 
 			//현재 장소에 특정 데이터가 없는 경우
 			//1. 이 장소에서 특정 데이터를 가져올 수 있는지? -> 스스로
@@ -46,6 +46,7 @@ public class BoardDAO {
 			pstat.setString(2, dto.getContent());
 			pstat.setString(3, dto.getId());
 			pstat.setString(4, dto.getAttach());
+			pstat.setString(5, dto.getSecret());
 
 			return pstat.executeUpdate();
 
@@ -99,6 +100,8 @@ public class BoardDAO {
 				dto.setIsnew(rs.getDouble("isnew"));
 				dto.setCommentCount(rs.getString("commentCount"));
 				
+				dto.setSecret(rs.getString("secret"));
+				
 				list.add(dto);				
 			}	
 			
@@ -135,6 +138,7 @@ public class BoardDAO {
 				dto.setContent(rs.getString("content"));
 				dto.setName(rs.getString("name"));
 				dto.setAttach(rs.getString("attach"));
+				dto.setSecret(rs.getString("secret"));
 				
 				//해시태그 추가
 				sql = "SELECT h.hashtag FROM tblBoard b INNER JOIN tbltagging t ON b.SEQ = t.bseq INNER JOIN tblhashtag h ON h.SEQ = t.hseq WHERE b.seq = ?";

@@ -33,6 +33,10 @@
 				<th>해시태그</th>
 				<td><input type="text" id="hashtag" class="full" name="hashtag" /></td>
 			</tr>
+			<tr>
+				<th>비밀글</th>
+				<td><label><input type="checkbox" name="secret" value="1"/> 비밀글(작성자/관리자만 열람 가능)</label></td>
+			</tr>
 			
 		</table>
 		<!-- 쓰기버튼과 돌아가기 버튼 -->
