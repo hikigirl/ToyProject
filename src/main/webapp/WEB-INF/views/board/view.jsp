@@ -134,6 +134,9 @@
 			<button type="button" class="favorite primary"
 					onclick="scrap(${dto.seq});">즐겨찾기</button>
 			</c:if>
+			<button type="button" class="bookmark primary"
+					onclick="copy();">공유하기</button>
+			
 		</div>
 
 	</div>
@@ -408,6 +411,16 @@
 		
 		if(${dto.scrapbook} == 1) {
 			$('.favorite').css('background-color', 'rgba(255,0,0,.3)');
+		}
+		
+		
+		function copy(){
+			let btn = event.target;
+			window.navigator.clipboard.writeText(location.href).then(() => {
+				//alert('링크가 클립보드에 복사되었습니다.');
+				$(btn).text('공유하기 - 복사완료')
+			});
+			
 		}
 		
 	</script>
