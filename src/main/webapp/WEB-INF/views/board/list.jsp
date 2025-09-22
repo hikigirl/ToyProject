@@ -58,8 +58,22 @@
 			</c:if>
 			
 			<c:forEach items="${list}" var="dto">
-			<tr>
-				<td>${dto.seq}</td>
+			
+			<c:if test="${dto.notice=='0'}">
+				<tr>
+			
+			</c:if>
+			<c:if test="${dto.notice=='1'}">
+				<tr style="background-color:rgba(255,0,0,.05);">
+			
+			</c:if>
+			
+			
+				<td>
+				<c:if test="${dto.notice=='0'}">${dto.seq}</c:if>
+				<c:if test="${dto.notice=='1'}">공지</c:if>
+				
+				</td>
 				<td>
 					<c:if test="${dto.secret == '1'}">
 					<span class="material-symbols-outlined" style="font-size:16px;">lock</span>

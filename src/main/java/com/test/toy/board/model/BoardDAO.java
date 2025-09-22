@@ -31,7 +31,7 @@ public class BoardDAO {
 	public int add(BoardDTO dto) {
 		// add.do에서 호출하였음
 		try {
-			String sql = "INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach, secret) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT, ?, ?)";
+			String sql = "INSERT INTO TBLBOARD (seq, subject, content, id, regdate, readcount, attach, secret, notice) VALUES (seqBoard.nextVal, ?, ?, ?, DEFAULT, DEFAULT, ?, ?, ?)";
 
 			//현재 장소에 특정 데이터가 없는 경우
 			//1. 이 장소에서 특정 데이터를 가져올 수 있는지? -> 스스로
@@ -47,6 +47,7 @@ public class BoardDAO {
 			pstat.setString(3, dto.getId());
 			pstat.setString(4, dto.getAttach());
 			pstat.setString(5, dto.getSecret());
+			pstat.setString(6, dto.getNotice());
 
 			return pstat.executeUpdate();
 
@@ -101,9 +102,34 @@ public class BoardDAO {
 				dto.setCommentCount(rs.getString("commentCount"));
 				
 				dto.setSecret(rs.getString("secret"));
+				dto.setNotice(rs.getString("notice"));
 				
 				list.add(dto);				
 			}	
+			
+			//공지사항 추가
+			sql = "select * from vwNotice";
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while (rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setId(rs.getString("id"));
+				dto.setReadcount(rs.getString("readcount"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+				dto.setName(rs.getString("name"));
+				dto.setIsnew(rs.getDouble("isnew"));
+				dto.setCommentCount(rs.getString("commentCount"));
+				
+				dto.setSecret(rs.getString("secret"));
+				dto.setNotice(rs.getString("notice"));
+				
+				list.add(0, dto);
+			}
+			
 			
 			return list;
 			

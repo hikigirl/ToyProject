@@ -53,8 +53,10 @@ public class Add extends HttpServlet {
 		String attach = multi.getFilesystemName("attach");
 		String hashtag = multi.getParameter("hashtag");
 		String secret = multi.getParameter("secret");
+		String notice = multi.getParameter("notice");
 		
 		if (secret == null) secret = "0";
+		if (notice == null) notice = "0";
 		
 		//System.out.println(subject);
 		//System.out.println(content);
@@ -66,6 +68,7 @@ public class Add extends HttpServlet {
 		dto.setContent(content);
 		dto.setAttach(attach);
 		dto.setSecret(secret);
+		dto.setNotice(notice);
 		
 		HttpSession session = req.getSession();
 		dto.setId(session.getAttribute("id").toString()); 

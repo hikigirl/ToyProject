@@ -167,11 +167,27 @@ SELECT
 	(SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,
 	(sysdate - regdate) AS isnew,
 	(SELECT count(*) FROM tblComment WHERE bseq=tblBoard.seq) AS commentCount,
-	secret
+	secret,
+	notice
 FROM TBLBOARD
-ORDER BY seq DESC;
+	WHERE notice = 0
+	ORDER BY seq DESC;
+--ORDER BY notice DESC, seq DESC;
+
+CREATE OR REPLACE VIEW vwNotice AS 
+SELECT 
+	seq, subject, id, readcount, regdate, content,
+	(SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,
+	(sysdate - regdate) AS isnew,
+	(SELECT count(*) FROM tblComment WHERE bseq=tblBoard.seq) AS commentCount,
+	secret,
+	notice
+FROM TBLBOARD
+	WHERE notice = 1
+	ORDER BY seq DESC;
 
 SELECT * FROM vwboard;
+SELECT * FROM vwNotice;
 
 --댓글수정
 UPDATE TBLCOMMENT SET content = ? WHERE seq = ?;

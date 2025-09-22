@@ -23,4 +23,5 @@ public class BoardDTO {
 	private String attach; //첨부파일
 	private List<String> hashtag; //해시태그
 	private String secret; //비밀글
+	private String notice; //공지글
 }
