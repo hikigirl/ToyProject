@@ -102,6 +102,25 @@ public class UserDAO {
 		
 		return 0;
 	}
+
+	public void addLog(UserLogDTO dto) {
+		// logFilter.do에서 호출
+		try {
+
+			String sql = "INSERT INTO tblLog(seq, id, regdate, url) VALUES (seqLog.nextVal, ?, DEFAULT, ?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getId());
+			pstat.setString(2, dto.getUrl());
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("UserDAO.addLog");
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	

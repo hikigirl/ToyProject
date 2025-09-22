@@ -45,6 +45,7 @@
 - __com.test.toy.user.model__
   - UserDAO.java
   - UserDTO.java
+  - UserLogDTO.java
 - __com.test.toy.board(게시판 패키지)__
   - List.java
   - View.java
@@ -61,6 +62,7 @@
 - __com.test.toy.filter__
   - EncodingFilter.java(인코딩 처리를 위한 필터)
   - AuthFilter.java
+  - LogFilter.java
 - __com.test.toy.comment__ : Ajax 응답용 서블릿
   - AddComment.java
   - DelComment.java
@@ -170,7 +172,10 @@ escape하는 시점은?
 #### 공유 기능
 1. 링크 클립보드에 복사하기 
 
-
+#### 유저 활동 내역
+- 인증 유저
+- *.do(서블릿)
+- 필터 사용
 
 #### 기타 추가할만한 기능
 1. 신고

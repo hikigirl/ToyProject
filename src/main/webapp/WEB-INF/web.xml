@@ -34,5 +34,16 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>log</filter-name>
+		<filter-class>com.test.toy.filter.LogFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>log</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	
 	
 </web-app>

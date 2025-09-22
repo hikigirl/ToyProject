@@ -277,3 +277,23 @@ SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,(SE
 --내가 즐겨찾기한 글
 --SELECT * FROM vwboard WHERE 내가 즐겨찾기한 글;
 SELECT * FROM vwboard WHERE seq IN (SELECT bseq FROM tblscrapbook WHERE id='hong');
+
+
+
+CREATE TABLE tblLog(
+	seq NUMBER PRIMARY KEY,
+	id varchar2(50) NOT NULL REFERENCES TBLUSER(id),
+	regdate DATE DEFAULT sysdate NOT NULL,
+	url varchar2(300) NOT NULL
+);
+
+CREATE SEQUENCE seqLog;
+
+
+SELECT * FROM tblLog;
+
+INSERT INTO tblLog(seq, id, regdate, url) VALUES (seqLog.nextVal, ?, DEFAULT, ?);
+
+
+
+
