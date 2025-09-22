@@ -19,7 +19,7 @@ public class Edit extends HttpServlet {
 		//Edit.java
 		String seq = req.getParameter("seq");
 		BoardDAO dao = new BoardDAO();
-		BoardDTO dto = dao.get(seq);
+		BoardDTO dto = dao.get(seq, req.getSession().getAttribute("id").toString());
 		
 		req.setAttribute("dto", dto);
 		

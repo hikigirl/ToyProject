@@ -140,15 +140,16 @@ public class BoardDAO {
 		
 	}
 
-	public BoardDTO get(String seq) {
+	public BoardDTO get(String seq, String id) {
 		//view.do에서 호출되었음
 		//edit.do에서 호출되었음
 		try {
 			
-			String sql = "SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name FROM tblBoard WHERE seq = ?";
+			String sql = "SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,(SELECT count(*) FROM tblscrapbook WHERE bseq=TBLBOARD.seq AND id=?) AS scrapbook FROM tblBoard WHERE seq = ?";
 			
 			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, seq);
+			pstat.setString(1, id);
+			pstat.setString(2, seq);
 			
 			rs = pstat.executeQuery();
 			
@@ -165,6 +166,7 @@ public class BoardDAO {
 				dto.setName(rs.getString("name"));
 				dto.setAttach(rs.getString("attach"));
 				dto.setSecret(rs.getString("secret"));
+				dto.setScrapbook(rs.getString("scrapbook"));
 				
 				//해시태그 추가
 				sql = "SELECT h.hashtag FROM tblBoard b INNER JOIN tbltagging t ON b.SEQ = t.bseq INNER JOIN tblhashtag h ON h.SEQ = t.hseq WHERE b.seq = ?";
@@ -520,7 +522,113 @@ public class BoardDAO {
 		
 	}
 
-	
+	public int getScrapBook(Map<String, String> map) {
+		//scrapbook.do에서 호출
+		try {
+
+			String sql = "select count(*) as cnt from tblScrapbook where bseq = ? and id = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("id"));
+
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+
+				return rs.getInt("cnt");
+			}
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO.getScrapBook");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	public void addScrapBook(Map<String, String> map) {
+		// scrapbook.do에서 호출
+		try {
+
+			String sql = "insert into tblScrapBook (seq, bseq, id, regdate) values (seqScrapBook.nextVal, ?, ?, default)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("id"));
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void delScrapBook(Map<String, String> map) {
+		
+		try {
+
+			String sql = "delete from tblScrapBook where bseq = ? and id = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("id"));
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public List<BoardDTO> listScrapBook(String id) {
+		//scrapbook.do에서 호출
+		try {
+			
+			String sql = "SELECT * FROM vwboard WHERE seq IN (SELECT bseq FROM tblscrapbook WHERE id=?)";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, id);
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+			
+			while (rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				//setter
+				dto.setSeq(rs.getString("seq"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setId(rs.getString("id"));
+				dto.setReadcount(rs.getString("readcount"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+				dto.setName(rs.getString("name"));
+				dto.setIsnew(rs.getDouble("isnew"));
+				dto.setCommentCount(rs.getString("commentCount"));
+				
+				dto.setSecret(rs.getString("secret"));
+				dto.setNotice(rs.getString("notice"));
+				
+				list.add(dto);
+				
+								
+			}	
+			
+			return list;
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.listScrapBook");
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
 	
 	
 

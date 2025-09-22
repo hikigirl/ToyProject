@@ -52,6 +52,7 @@
   - Edit.java
   - Del.java
   - Dummy.java: 더미데이터용
+  - ScrapBook.java
 - __com.test.toy.board.model__
   - BoardDAO.java
   - BoardDTO.java
@@ -83,6 +84,7 @@
   - add.jsp
   - edit.jsp
   - del.jsp
+  - scrapbook.jsp
 
 #### 공통 리소스
 
@@ -161,3 +163,13 @@ escape하는 시점은?
 1. 그냥글 - 모두 공개
 2. 비밀글 - 작성자가 로그인 시 작성자에게만 공개
 3. 비밀글 - 작성자가 아닌 사람 로그인 시 클릭 막기
+
+#### 스크랩 기능
+
+
+
+
+#### 기타 추가할만한 기능
+1. 신고
+2. 좋아요, 싫어요
+3. 공유

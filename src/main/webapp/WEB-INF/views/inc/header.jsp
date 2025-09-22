@@ -35,6 +35,7 @@
 		</c:if>
 		
 		<li><a href="/toy/board/list.do">Board</a></li>
+		<li><a href="/toy/board/scrapbook.do">Scrap</a></li>
 		<!-- 
 		<li><a href=""></a></li>
 		-->

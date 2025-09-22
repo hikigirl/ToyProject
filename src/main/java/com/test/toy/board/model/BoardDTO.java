@@ -24,4 +24,7 @@ public class BoardDTO {
 	private List<String> hashtag; //해시태그
 	private String secret; //비밀글
 	private String notice; //공지글
+	private String scrapbook; //즐겨찾기 유무
+	
+	
 }

@@ -40,7 +40,12 @@ public class View extends HttpServlet {
 			session.setAttribute("read", "y");
 		}
 		
-		BoardDTO dto = dao.get(seq); //DB 작업(DAO)
+		String id = "";
+		if(session.getAttribute("id") != null){
+			id = session.getAttribute("id").toString();
+		}
+		
+		BoardDTO dto = dao.get(seq, id); //DB 작업(DAO)
 		
 		//비밀글 열람 통제 -> 작성자 or 관리자
 		if(dto.getSecret().equals("1")

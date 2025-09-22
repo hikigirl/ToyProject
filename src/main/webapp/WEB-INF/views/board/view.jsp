@@ -128,6 +128,12 @@
 			<button type="button" class="back"
 				onclick="location.href='/toy/board/list.do?column=${column}&word=${word}';">목록보기</button>
 			<!-- <button type="button" class="back" onclick="history.back();">목록보기</button> -->
+			
+			<!-- 북마크 -->
+			<c:if test="${not empty id}">
+			<button type="button" class="favorite primary"
+					onclick="scrap(${dto.seq});">즐겨찾기</button>
+			</c:if>
 		</div>
 
 	</div>
@@ -375,6 +381,34 @@
 			//alert(e.detail.data.value);
 			location.href='/toy/board/list.do?tag=' + e.detail.data.value;
 		});
+		
+		function scrap(seq) {
+			//alert(seq);
+			$.ajax({
+				type:'post',
+				url: '/toy/board/scrapbook.do',
+				data: {
+					seq:seq
+				},
+				dataType: 'json',
+				success: function(result){
+					if (result.result =='0') {
+						//등록o
+						$('.favorite').css('background-color', 'rgba(255,0,0,.3)');
+					} else {
+						//등록x
+						$('.favorite').css('background-color', 'var(--primary-color)');
+					}
+				},
+				error: function(a,b,c){
+					console.log(a,b,c);
+				}
+			});
+		}
+		
+		if(${dto.scrapbook} == 1) {
+			$('.favorite').css('background-color', 'rgba(255,0,0,.3)');
+		}
 		
 	</script>
 

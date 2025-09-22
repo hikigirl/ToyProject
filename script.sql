@@ -259,3 +259,21 @@ SELECT h.hashtag FROM tblBoard b INNER JOIN tbltagging t ON b.SEQ = t.bseq INNER
 
 
 SELECT * FROM (SELECT a.*, rownum AS rnum FROM vwBoard a) b INNER JOIN tbltagging t ON b.seq=t.bseq INNER JOIN tblhashtag h ON h.seq=t.hseq WHERE rnum BETWEEN 1 AND 100	AND h.hashtag = '우중충...';
+
+DROP TABLE tblscrapbook;
+CREATE TABLE tblScrapBook(
+	seq NUMBER PRIMARY KEY,								--번호(PK)
+	bseq NUMBER NOT NULL REFERENCES tblBoard(seq),		--게시물번호(FK)
+	id varchar2(50) NOT NULL REFERENCES tblUser(id),		--아이디
+	regdate DATE DEFAULT sysdate NOT NULL					-- 날짜
+);
+CREATE SEQUENCE seqScrapBook;
+
+SELECT * FROM tblScrapBook;
+
+SELECT tblBoard.*, (SELECT name FROM tblUser WHERE id = tblBoard.id) AS name,(SELECT count(*) FROM tblscrapbook WHERE bseq=TBLBOARD.seq AND id=?) AS scrapbook FROM tblBoard;
+
+
+--내가 즐겨찾기한 글
+--SELECT * FROM vwboard WHERE 내가 즐겨찾기한 글;
+SELECT * FROM vwboard WHERE seq IN (SELECT bseq FROM tblscrapbook WHERE id='hong');
