@@ -389,6 +389,9 @@ INSERT INTO tblLog(seq, id, regdate, url)
 INSERT INTO tblLog(seq, id, regdate, url)
 	VALUES (seqLog.nextVal, 'catty', sysdate - 14, '/toy/index.do');
 INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'catty', sysdate - 13, '/toy/index.do');
+
+INSERT INTO tblLog(seq, id, regdate, url)
 	VALUES (seqLog.nextVal, 'catty', sysdate - 12, '/toy/index.do');
 INSERT INTO tblLog(seq, id, regdate, url)
 	VALUES (seqLog.nextVal, 'catty', sysdate - 9, '/toy/index.do');
