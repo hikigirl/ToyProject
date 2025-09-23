@@ -68,6 +68,12 @@
   - DelComment.java
   - EditComment.java
   - MoreComment.java
+- __com.test.toy.admin__ : 관리자
+  - Log.java
+  - LoadLog.java : ajax용
+- __com.test.toy.admin.model__
+  - LogDAO.java
+  - LogDTO.java
 
 #### JSP
 
@@ -87,6 +93,8 @@
   - edit.jsp
   - del.jsp
   - scrapbook.jsp
+- views/admin
+  - log.jsp
 
 #### 공통 리소스
 

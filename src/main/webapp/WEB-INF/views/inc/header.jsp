@@ -36,6 +36,10 @@
 		
 		<li><a href="/toy/board/list.do">Board</a></li>
 		<li><a href="/toy/board/scrapbook.do">Scrap</a></li>
+		<c:if test="${not empty id and lv =='2'}">
+		<li><a href="/toy/admin/log.do">Log</a></li>
+		</c:if>
+		
 		<!-- 
 		<li><a href=""></a></li>
 		-->

@@ -294,6 +294,137 @@ SELECT * FROM tblLog;
 
 INSERT INTO tblLog(seq, id, regdate, url) VALUES (seqLog.nextVal, ?, DEFAULT, ?);
 
+--로그 출력용 select문
+--한달간 로그인한 기록, 날짜별 글쓴 횟수, 날짜별 댓글쓴 횟수
+SELECT 
+	TO_CHAR(regdate, 'yyyy-mm-dd') AS regdate,
+	count(*) AS lcnt, --로그인 기록
+	(SELECT count(*) FROM tblBoard WHERE TO_CHAR(regdate, 'yyyy-mm-dd') = TO_CHAR(l.regdate, 'yyyy-mm-dd') AND id = 'hong') AS bcnt,
+	(SELECT count(*) FROM tblComment WHERE TO_CHAR(regdate, 'yyyy-mm-dd') = TO_CHAR(l.regdate, 'yyyy-mm-dd') AND id = 'hong') AS ccnt
+FROM TBLLOG l
+	WHERE TO_CHAR(regdate, 'yyyy-mm') = '2025-09' AND id = 'hong'
+	GROUP BY TO_CHAR(regdate, 'yyyy-mm-dd');
+COMMIT;
 
 
 
+--SELECT TO_CHAR(regdate, 'yyyy-mm-dd') AS regdate, count(*) AS lcnt, (SELECT count(*) FROM tblBoard WHERE TO_CHAR(regdate, 'yyyy-mm-dd') = TO_CHAR(l.regdate, 'yyyy-mm-dd') AND id = 'hong') AS bcnt, (SELECT count(*) FROM tblComment WHERE TO_CHAR(regdate, 'yyyy-mm-dd') = TO_CHAR(l.regdate, 'yyyy-mm-dd') AND id = 'hong') AS ccnt FROM TBLLOG l WHERE TO_CHAR(regdate, 'yyyy-mm') = '2025-09' AND id = 'hong' GROUP BY TO_CHAR(regdate, 'yyyy-mm-dd');
+
+
+--더미(강아지)
+--로그인기록
+SELECT * FROM tbllog;
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 30, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 25, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 22, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 20, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 18, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 17, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 12, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 9, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 5, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'dog', sysdate - 3, '/toy/index.do');
+
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 30, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 30, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 25, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 22, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 18, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 18, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 5, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 5, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'dog', sysdate - 5, 0, NULL, 0, 0);
+
+
+SELECT * FROM tblcomment;
+SELECT * FROM TBLBOARD;
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 30, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 30, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 25, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 22, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 12, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 12, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 9, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 9, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 5, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'dog', sysdate - 3, 323);
+
+
+
+--더미(고양이)
+
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'catty', sysdate - 28, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'catty', sysdate - 23, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'catty', sysdate - 14, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'catty', sysdate - 12, '/toy/index.do');
+INSERT INTO tblLog(seq, id, regdate, url)
+	VALUES (seqLog.nextVal, 'catty', sysdate - 9, '/toy/index.do');
+
+
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 28, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 28, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 28, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 23, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 12, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 12, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 12, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 12, 0, NULL, 0, 0);
+INSERT INTO tblboard(seq, subject, content, id, regdate, readcount, attach, secret, notice)
+	VALUES (seqBoard.nextVal, '게시판입니다.', '내용', 'catty', sysdate - 9, 0, NULL, 0, 0);
+
+
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 28, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 23, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 12, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 9, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 9, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 9, 323);
+INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
+	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 9, 323);
