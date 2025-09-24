@@ -431,3 +431,10 @@ INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq)
 	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 9, 323);
 INSERT INTO TBLCOMMENT(seq, content, id, regdate, bseq) 
 	VALUES (seqComment.nextVal, '댓글입니다.', 'catty', sysdate - 9, 323);
+
+
+SELECT url, count(*) AS cnt
+FROM tbllog 
+	WHERE id = 'hong'
+	GROUP BY url
+	ORDER BY cnt desc;

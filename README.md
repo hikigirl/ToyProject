@@ -71,6 +71,7 @@
 - __com.test.toy.admin__ : 관리자
   - Log.java
   - LoadLog.java : ajax용
+  - ListLog.java : ajax용
 - __com.test.toy.admin.model__
   - LogDAO.java
   - LogDTO.java

@@ -57,9 +57,13 @@
 			<tbody></tbody>
 		</table>
 
+		<hr />
+		<h2>접속 통계 <small>페이지</small></h2>
+		<div id="chart_div"></div>
+	
 	</div>
 	
-
+	  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script>
 		let year=0;
 		let month=0;
@@ -196,8 +200,68 @@
 			//기존에 달력에 출력되던 내용을 지워야 함
 			$('#tblCalendar div').html('');
 			id = $(event.target).val();
-			loadLog(year, month, id);
+			loadLog(year, month, id); 	//달력
+			drawUserChart(id);			//차트
 		});
+		
+		//구글 차트 활용해보기
+		function drawUserChart(id) {
+			//데이터 가져오기
+			$.ajax({
+				type: 'get',
+				url: '/toy/admin/listlog.do',
+				data: {
+					id: id
+				},
+				dataType: 'json',
+				success: function(result) {
+					//console.log(result);
+					if (result.length > 0) {
+						//차트 그리기
+						let chartData = [["페이지", "접속 횟수"]];
+						result.forEach(item => {
+							chartData.push([item.url, parseInt(item.cnt)])
+						});
+						
+						google.charts.load('current', {packages: ['corechart', 'bar']});
+						google.charts.setOnLoadCallback(function() {
+							drawBasic(chartData);
+						});
+					} else {
+						$('#chart_div').text('방문 기록이 없습니다.');
+					}
+				},
+				error: function(a,b,c){
+					console.log(a,b,c);
+				}
+			});
+			
+			
+		}
+		
+		
+		
+		
+		function drawBasic(param) {
+
+		      let data = google.visualization.arrayToDataTable(param);
+
+		      var options = {
+		       	title: '유저 페이지 방문 횟수',
+		        chartArea: {width: '60%'},
+		        hAxis: {
+		          title: '방문 횟수',
+		          minValue: 0
+		        },
+		        vAxis: {
+		          title: '페이지'
+		        }
+		      };
+
+		      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+		      chart.draw(data, options);
+		    }
 		
 	</script>
 

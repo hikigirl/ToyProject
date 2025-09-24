@@ -99,4 +99,37 @@ public class LogDAO {
 		return null;
 	}
 
+	public List<LogDTO> listLog(String id) {
+		//listlog.do에서 호출
+		try {
+			
+			String sql = "SELECT url, count(*) AS cnt FROM tbllog WHERE id = ? GROUP BY url ORDER BY cnt desc";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, id);
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<LogDTO> list = new ArrayList<LogDTO>();
+			
+			while (rs.next()) {
+				
+				LogDTO dto = new LogDTO();
+				
+				dto.setCnt(rs.getString("cnt"));
+				dto.setUrl(rs.getString("url").substring(5));
+				
+				list.add(dto);				
+			}	
+			
+			return list;
+			
+		} catch (Exception e) {
+			System.out.println("LogDAO.listLog");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }

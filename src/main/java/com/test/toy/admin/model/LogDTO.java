@@ -14,4 +14,7 @@ public class LogDTO {
 	private String bcnt;
 	private String ccnt;
 	private String regdate;
+	
+	private String cnt;
+	private String url;
 }
