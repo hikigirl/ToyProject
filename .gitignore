@@ -30,3 +30,5 @@ tmp/
 # 운영체제(OS) 생성 파일 (Windows & macOS)
 Thumbs.db
 .DS_Store
+
+MailSenderKey.txt

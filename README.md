@@ -42,6 +42,10 @@
   - Login.java: 로그인
   - Logout.java: 로그아웃
   - Info.java: 회원정보
+  - MailSender.java: 메일 발송(일반 클래스)
+  - SendMail.java
+  - ValidMail.java
+  - DelMail.java
 - __com.test.toy.user.model__
   - UserDAO.java
   - UserDTO.java
@@ -185,6 +189,14 @@ escape하는 시점은?
 - 인증 유저
 - *.do(서블릿)
 - 필터 사용
+
+#### 관리자 통계 대시보드
+- 사용자의 방문 기록, 활동 내역 등을 확인
+
+#### 회원가입 시 이메일 인증받기
+- 방법1 - URL 클릭하면 인증되는 방법
+- 방법2 - 인증번호 입력하는 방법
+- 자바 측에서 이메일 발송하기
 
 #### 기타 추가할만한 기능
 1. 신고
